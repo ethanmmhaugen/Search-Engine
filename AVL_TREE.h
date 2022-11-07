@@ -129,9 +129,10 @@ public:
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    void remove(const Comparable &x)
+    AvlNode* remove(const Comparable &x)
     {
-        remove(x, root);
+        AvlNode* t =remove(root, x);
+        return t;
     }
 
 private:
@@ -162,19 +163,88 @@ private:
         balance(t);
     }
 
+    int balanceFactor(AvlNode* t){
+        int leftHeight, rightHeight;
+        if(t == NULL){
+            return 0;
+        }
+        if(t->left == NULL){
+            leftHeight = 0;
+        }
+        else{
+            leftHeight = 1+t->left->height;
+        }
+        if(t->right == NULL){
+            rightHeight = 0;
+        }
+        else{
+            rightHeight = 1+t->right->height;
+        }
+        return (leftHeight-rightHeight);
+    }
+
     /**
      * Internal method to remove from a subtree.
      * x is the item to remove.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void remove(const Comparable &x, AvlNode *&t)
+    AvlNode* remove(AvlNode *&t, const Comparable &x)
     {
-        throw std::runtime_error("Not implemented yet!");
-        // same as in a binary search tree
+        cout << "we in this bitch" << endl;
+        if(contains(x)) {
+            AvlNode *p;
+            if (x > t->element) {
+                t->right = remove(t->right, x);
+                if(balanceFactor(t) == 2){
+                    if(balanceFactor(t ->left) >=0){
+                        t = LL(t);
+                    }
+                    else{
+                        t = LR(t);
+                    }
+                }
+            } else if (x < t->element) {
+                t->left = remove(t->left, x);
+                if(balanceFactor(t)==-2){
+                    if(balanceFactor(t->right)<=0){
+                        t =RR(t);
+                    }
+                    else{
+                        t =RL(t);
+                    }
+                }
 
-        // don't forget to balance
-        balance(t);
+            } else{
+                if(t->right != NULL){
+                    p = t->right;
+                    while(p->left != NULL){
+                        p = p->left;
+                    }
+                    t->element = p->element;
+                    t->right = remove(t->right, p->element);
+
+                    if(balanceFactor(t) == 2){
+                        if(balanceFactor(t->left) >= 0){
+                            t = LL(t);
+                        }
+                        else{
+                            t = LR(t);
+                        }
+                    }
+                }
+                else{
+                    return(t->left);
+                }
+
+            }
+            t ->height = height(t);
+            // don't forget to balance
+            return(t);
+        }
+        else{
+            return NULL;
+        }
     }
 
     /**
@@ -386,6 +456,54 @@ private:
 #endif
         rotateWithLeftChild(k1->right);
         rotateWithRightChild(k1);
+    }
+    AvlNode * RR(AvlNode *T)
+    {
+
+        T = rotateleft(T);
+        return(T);
+    }
+    AvlNode* LL(AvlNode  *T)
+    {
+        T = rotateright(T);
+        return(T);
+    }
+
+    AvlNode * LR(AvlNode *T)
+    {
+
+        T -> left = rotateleft(T->left);
+        T = rotateright(T);
+        return(T);
+    }
+
+    AvlNode * RL(AvlNode *T)
+    {
+        T -> right = rotateright(T->right);
+        T = rotateleft(T);
+        return(T);
+    }
+    AvlNode * rotateright(AvlNode *x)
+    {
+
+        AvlNode *y;
+        y = x -> left;
+        x -> left = y -> right;
+        y -> right = x;
+        x -> height = height(x);
+        y -> height = height(y);
+        return(y);
+    }
+
+    AvlNode * rotateleft(AvlNode *x)
+    {
+        AvlNode *y;
+        y = x -> right;
+        x -> right = y -> left;
+        y -> left = x;
+        x -> height = height(x);
+        y -> height = height(y);
+        return(y);
     }
 };
 

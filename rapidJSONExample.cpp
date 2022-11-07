@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include "AVL_TREE.h"
 
 // RapidJSON headers we need for our parsing.
 #include "rapidjson/istreamwrapper.h"
@@ -31,6 +32,31 @@ int main()
     cout << "------     File System Example       ------" << endl;
     cout << "-------------------------------------------" << endl;
     testFileSystem("sample_data");
+
+    AvlTree<int> tree;
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(30);
+    tree.insert(40);
+    tree.insert(50);
+    tree.insert(60);
+    tree.insert(70);
+    tree.prettyPrintTree();
+    tree.remove(40);
+    tree.prettyPrintTree();
+    tree.remove(70);
+    tree.prettyPrintTree();
+    tree.remove(60);
+    tree.prettyPrintTree();
+    tree.remove(20);
+    tree.prettyPrintTree();
+    tree.remove(40);
+    tree.prettyPrintTree();
+    tree.remove(10);
+    tree.prettyPrintTree();
+    tree.remove(30);
+    tree.prettyPrintTree();
+
 
     return 0;
 }
