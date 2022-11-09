@@ -82,6 +82,16 @@ public:
         return contains(x, root);
     }
 
+    Comparable find(const Comparable &x) const
+    {
+        if(contains(x)) {
+            return find(x, root);
+        }
+        else{
+            throw std::runtime_error "Not Found";
+        }
+    }
+
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
@@ -278,6 +288,19 @@ private:
             return contains(x, t->right);
         else
             return true; // Match
+    }
+
+    Comparable find(const Comparable &x, AvlNode *t) const
+    {
+        if (t == nullptr)
+            return false;
+
+        else if (x < t->element)
+            return contains(x, t->left);
+        else if (t->element < x)
+            return contains(x, t->right);
+        else
+            return (t->element); // Match
     }
     /****** NONRECURSIVE VERSION*************************
         bool contains( const Comparable & x, AvlNode *t ) const

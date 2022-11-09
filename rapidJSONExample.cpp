@@ -73,7 +73,7 @@ void testReadJsonFile(const string &fileName)
     cout << "Title: " << val << "\n";
 
     // The Persons entity for which you're building a specific
-    //  inverted index is contained in top level -entities- element.
+    //  inverted indexHandler is contained in top level -entities- element.
     //  So that's why we subscript with ["entities"]["persons"].
     //  The value associated with entities>persons is an array.
     //  So we call GetArray() to get an iterable collection of elements

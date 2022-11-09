@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 
+
 #ifndef FINALPROJEXAMPLES_KEY_H
 #define FINALPROJEXAMPLES_KEY_H
 
@@ -31,6 +32,14 @@ public:
         instances = rhs.instances;
         word = rhs.word;
         return *this;
+    };
+
+    bool operator<(key&rhs){
+        return this->word < rhs.word;
+    };
+
+    bool operator>(key&rhs){
+        return this->word > rhs.word;
     };
 
     void printAllInstances(){

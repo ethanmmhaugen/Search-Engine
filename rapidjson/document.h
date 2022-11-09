@@ -1660,9 +1660,9 @@ public:
         data_.a.size = 0;
     }
 
-    //! Get an element from array by index.
+    //! Get an element from array by indexHandler.
     /*! \pre IsArray() == true
-        \param index Zero-based index of element.
+        \param index Zero-based indexHandler of element.
         \see operator[](T*)
     */
     GenericValue& operator[](SizeType index) {

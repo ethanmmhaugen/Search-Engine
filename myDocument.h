@@ -31,12 +31,24 @@ public:
         return name;
     }
 
-    void addPeople(string name){
-        people.push_back(name);
+    void addPeople(string names){
+        people.push_back(names);
+    }
+
+    void addPeople(string names[]){
+        for(size_t i = 0; i<names->size(); i++){
+            people.push_back(names[i]);
+        }
     }
 
     void addOrgs(string name){
         orgs.push_back(name);
+    }
+
+    void addOrgs(string names[]){
+        for(size_t i = 0; i<names->size(); i++){
+            orgs.push_back(names[i]);
+        }
     }
 
     void addWords(string name){
