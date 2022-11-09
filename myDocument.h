@@ -35,20 +35,21 @@ public:
         people.push_back(names);
     }
 
-    void addPeople(string names[]){
-        for(size_t i = 0; i<names->size(); i++){
-            people.push_back(names[i]);
-        }
-    }
 
     void addOrgs(string name){
         orgs.push_back(name);
     }
 
-    void addOrgs(string names[]){
-        for(size_t i = 0; i<names->size(); i++){
-            orgs.push_back(names[i]);
-        }
+    void setPeople(const vector<string> &people) {
+        myDocument::people = people;
+    }
+
+    void setOrgs(const vector<string> &orgs) {
+        myDocument::orgs = orgs;
+    }
+
+    void setWords(const vector<string> &words) {
+        myDocument::words = words;
     }
 
     void addWords(string name){
@@ -65,6 +66,25 @@ public:
 
     vector<string> getWords(){
         return words;
+    }
+
+    void printWords(){
+        for(size_t i = 0; i<words.size(); i++){
+            cout << words[i] << ", ";
+        }
+        cout << endl;
+    }
+    void printOrgs(){
+        for(size_t i = 0; i<orgs.size(); i++){
+            cout << orgs[i] << ", ";
+        }
+        cout << endl;
+    }
+    void printPeople(){
+        for(size_t i = 0; i<people.size(); i++){
+            cout << people[i] << ", ";
+        }
+        cout << endl;
     }
 };
 

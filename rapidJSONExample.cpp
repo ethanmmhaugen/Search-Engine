@@ -79,21 +79,27 @@ void testReadJsonFile(const string &fileName)
     //  So we call GetArray() to get an iterable collection of elements
     auto persons = d["entities"]["persons"].GetArray();
 
-    // We iterate over the Array returned from the line above.
-    //  Each element kind of operates like a little JSON document
-    //  object in that you can use the same subscript notation
-    //  to access particular values.
-    cout << "  Person Entities + sentiment:"
-         << "\n";
+    vector<string> vecPersons;
     for (auto &p : persons)
     {
-        cout << "    > " << setw(30) << left << p["name"].GetString()
-             << setw(10) << left << p["sentiment"].GetString() << "\n";
+        vecPersons.push_back(p["name"].GetString());
     }
 
-    cout << endl;
+    auto orgs = d["entities"]["organizations"].GetArray();
+
+    vector<string> vecOrgs;
+    for (auto &p : orgs)
+    {
+        vecOrgs.push_back(p["name"].GetString());
+    }
 
     input.close();
+
+    myDocument doccy;
+    doccy.setPeople(vecPersons);
+    doccy.setOrgs(vecOrgs);
+    doccy.printOrgs();
+    doccy.printPeople();
 }
 
 /**

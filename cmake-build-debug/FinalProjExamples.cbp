@@ -84,7 +84,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/index.h">
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/indexHandler.h">
 			<Option target="rapidJSONExample"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/key.h">

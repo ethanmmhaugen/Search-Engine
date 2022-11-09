@@ -88,7 +88,7 @@ public:
             return find(x, root);
         }
         else{
-            throw std::runtime_error "Not Found";
+            throw std::runtime_error ("Not Found");
         }
     }
 
