@@ -35,8 +35,8 @@ public:
 
     void printAllInstances(){
         cout << word << " found in: ";
-        for (int i = 0; i < instances.size(); ++i) {
-            cout << instances.at(i) << ", ";
+        for (auto & instance : instances) {
+            cout << instance << ", ";
         }
     };
     string getName(){
