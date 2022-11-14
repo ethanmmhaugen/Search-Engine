@@ -33,7 +33,17 @@ public:
         orgs.makeEmpty();
     };
 
+    void insertDoc(key doc){
+        info.insert(doc);
+    }
 
+    void insertPerson(key person){
+        peeps.insert(person);
+    }
+
+    void insertOrg(key org){
+        orgs.insert(org);
+    }
 };
 
 
