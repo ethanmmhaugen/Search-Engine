@@ -12,6 +12,7 @@ using namespace std;
 class myDocument{
 private:
     string name;
+    string uuid;
     vector<string> people;
     vector<string> orgs;
     vector<string> words;
@@ -29,6 +30,14 @@ public:
 
     string getName(){
         return name;
+    }
+
+    void setUUID(string x){
+        uuid = x;
+    }
+
+    string getUUID(){
+        return uuid;
     }
 
     void addPeople(string names){
