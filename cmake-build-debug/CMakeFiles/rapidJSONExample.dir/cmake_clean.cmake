@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o"
+  "CMakeFiles/rapidJSONExample.dir/tests.cpp.o"
   "rapidJSONExample"
   "rapidJSONExample.pdb"
 )

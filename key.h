@@ -58,6 +58,11 @@ public:
         instances.push_back(name);
     };
 
+    friend ostream& operator << (ostream& out, const key x){
+        out << x.word;
+        return out;
+    }
+
 };
 
 

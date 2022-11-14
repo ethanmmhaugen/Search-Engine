@@ -10,7 +10,11 @@ file(COPY sample_data/ DESTINATION sample_data/)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -Wextra -pedantic)
 
-add_executable(rapidJSONExample rapidJSONExample.cpp key.h indexHandler.h)
+include(CTest)
+add_executable(rapidJSONExample rapidJSONExample.cpp key.h indexHandler.h tests.cpp)
+add_executable(tests test.cpp test.cpp)
+add_test(NAME SimpleTest COMMAND tests)
+
 
 # this makes sure we also link rapidjson
 target_include_directories(rapidJSONExample PRIVATE rapidjson/)

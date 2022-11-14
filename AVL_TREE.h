@@ -47,6 +47,9 @@ public:
     /**
      * @brief Construct a new Avl Tree object
      */
+    AvlNode* getRoot(){
+        return root;
+    }
     AvlTree() : root{nullptr}
     {
     }
