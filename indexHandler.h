@@ -4,6 +4,7 @@
 #include <vector>
 #include "AVL_TREE.h"
 #include "key.h"
+#include "myDocument.h"
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
 #define FINALPROJEXAMPLES_INDEX_H
@@ -43,6 +44,37 @@ public:
 
     void insertOrg(key org){
         orgs.insert(org);
+    }
+
+    //function for adding instances of a word to index or adding to word index
+    void scanDocWords(myDocument doc){
+        for(size_t i = 0; i<doc.getWords().size(); ++i){
+            if(info.contains(doc.getWords().at(i))){
+                info.find(doc.getWords().at(i)).addInst(doc.getUUID());
+            }else{
+                info.insert(key(doc.getWords().at(i)));
+            }
+        }
+    }
+
+    void scanDocPeople(myDocument doc){
+        for(size_t i = 0; i<doc.getPeople().size(); ++i){
+            if(info.contains(doc.getPeople().at(i))){
+                info.find(doc.getPeople().at(i)).addInst(doc.getUUID());
+            }else{
+                info.insert(key(doc.getPeople().at(i)));
+            }
+        }
+    }
+
+    void scanDocOrgs(myDocument doc){
+        for(size_t i = 0; i<doc.getOrgs().size(); ++i){
+            if(info.contains(doc.getOrgs().at(i))){
+                info.find(doc.getOrgs().at(i)).addInst(doc.getUUID());
+            }else{
+                info.insert(key(doc.getOrgs().at(i)));
+            }
+        }
     }
 };
 

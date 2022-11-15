@@ -6,6 +6,7 @@
 #include <sstream>
 #include "AVL_TREE.h"
 #include "myDocument.h"
+#include "key.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/document.h"
 
