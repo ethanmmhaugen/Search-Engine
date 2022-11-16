@@ -36,6 +36,16 @@ public:
 
     }
 
+    void printAnswers(){
+        cout << "We found these files for you: " << endl;
+        for(int i = 0; i<answers.size(); i++){
+            cout << answers[i] << ", ";
+            if(i%5 == 0){
+                cout << endl;
+            }
+        }
+    }
+
 
 
 
