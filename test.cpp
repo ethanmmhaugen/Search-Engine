@@ -31,11 +31,11 @@ TEST_CASE("Check that AVL tree works"){
         key kyle = key("Kyle");
         key miles = key("Miles Youngblood");
         CHECK(tree.getRoot() == nullptr);
-        /*tree.insert(ethan);
+        tree.insert(ethan);
         tree.insert(alex);
         tree.insert(kyle);
         tree.insert(miles);
-        */tree.prettyPrintTree();
+        tree.prettyPrintTree();
         CHECK(tree.isEmpty() == false);
         //CHECK(tree.contains(alex) == true);
         //CHECK(tree.contains("Mile") == false);

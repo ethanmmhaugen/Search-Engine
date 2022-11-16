@@ -168,10 +168,17 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/DocParser.h">
+			<Option target="tests"/>
+			<Option target="rapidJSONExample"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/indexHandler.h">
 			<Option target="rapidJSONExample"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/key.h">
+			<Option target="rapidJSONExample"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/query.h">
 			<Option target="rapidJSONExample"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidJSONExample.cpp">
