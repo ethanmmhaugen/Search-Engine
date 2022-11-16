@@ -8,6 +8,7 @@
 #include <iomanip>
 #include "AVL_TREE.h"
 #include "myDocument.h"
+#include "query.h"
 
 // RapidJSON headers we need for our parsing.
 #include "rapidjson/istreamwrapper.h"
@@ -22,20 +23,9 @@ void testFileSystem(const string &path);
 
 int main()
 {
+    query theboy;
+    theboy.getQuery();
 
-    cout << "-------------------------------------------" << endl;
-    cout << "------ RapidJSON Doc Parsing Example ------" << endl;
-    cout << "-------------------------------------------" << endl;
-    testReadJsonFile("sample_data/coll_1/news_0064567.json");
-
-    cout << "\n";
-    cout << "-------------------------------------------" << endl;
-    cout << "------     File System Example       ------" << endl;
-    cout << "-------------------------------------------" << endl;
-    testFileSystem("sample_data");
-
-
-    return 0;
 }
 
 /**
@@ -100,6 +90,7 @@ void testReadJsonFile(const string &fileName)
     doccy.setOrgs(vecOrgs);
     doccy.printOrgs();
     doccy.printPeople();
+
 }
 
 /**

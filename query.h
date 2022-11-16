@@ -10,6 +10,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include "Porter2/porter2_stemmer.h"
 
 using namespace std;
 
@@ -21,16 +22,19 @@ private:
 public:
     query() = default;
 
-    string getQuery(){
+    void getQuery(){
         cout << "Google Search but better... whatchu want?: " << endl;
         string ans;
-        cin >> ans;
+        getline(cin, ans);
         stringstream s(ans);
         string buff;
         while(!s.eof()) {
             getline(s, buff, ' ');
             //ADD STEMMING
+            Porter2Stemmer::stem(buff);
+            cout << buff << endl;
             queries.push_back(buff);
+            cout << queries.size() << endl;
         }
 
 

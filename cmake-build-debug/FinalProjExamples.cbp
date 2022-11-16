@@ -172,6 +172,18 @@
 			<Option target="tests"/>
 			<Option target="rapidJSONExample"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/Porter2/hash.h">
+			<Option target="rapidJSONExample"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/Porter2/porter2_stemmer.cpp">
+			<Option target="rapidJSONExample"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/Porter2/porter2_stemmer.h">
+			<Option target="rapidJSONExample"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/Porter2/string_view.h">
+			<Option target="rapidJSONExample"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/indexHandler.h">
 			<Option target="rapidJSONExample"/>
 		</Unit>

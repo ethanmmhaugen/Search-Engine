@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o CMakeFiles/rapidJSONExample.dir/tests.cpp.o  -o rapidJSONExample 
+/usr/bin/c++  -g   CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o CMakeFiles/rapidJSONExample.dir/tests.cpp.o CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.o  -o rapidJSONExample 

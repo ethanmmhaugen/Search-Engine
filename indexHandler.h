@@ -5,6 +5,7 @@
 #include "AVL_TREE.h"
 #include "key.h"
 #include "myDocument.h"
+#include <filesystem>
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
 #define FINALPROJEXAMPLES_INDEX_H
@@ -73,6 +74,14 @@ public:
                 info.find(doc.getOrgs().at(i)).addInst(doc.getUUID());
             }else{
                 info.insert(key(doc.getOrgs().at(i)));
+            }
+        }
+    }
+
+    void populate(string path){
+        for(const auto& entry: filesystem::recursive_directory_iterator(path)){
+            if(entry.is_regular_file() && entry.path().extension().string() == ".json"){
+
             }
         }
     }

@@ -511,6 +511,33 @@ rapidJSONExample/fast:
 	$(MAKE) -f CMakeFiles/rapidJSONExample.dir/build.make CMakeFiles/rapidJSONExample.dir/build
 .PHONY : rapidJSONExample/fast
 
+Porter2/porter2_stemmer.o: Porter2/porter2_stemmer.cpp.o
+
+.PHONY : Porter2/porter2_stemmer.o
+
+# target to build an object file
+Porter2/porter2_stemmer.cpp.o:
+	$(MAKE) -f CMakeFiles/rapidJSONExample.dir/build.make CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.o
+.PHONY : Porter2/porter2_stemmer.cpp.o
+
+Porter2/porter2_stemmer.i: Porter2/porter2_stemmer.cpp.i
+
+.PHONY : Porter2/porter2_stemmer.i
+
+# target to preprocess a source file
+Porter2/porter2_stemmer.cpp.i:
+	$(MAKE) -f CMakeFiles/rapidJSONExample.dir/build.make CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.i
+.PHONY : Porter2/porter2_stemmer.cpp.i
+
+Porter2/porter2_stemmer.s: Porter2/porter2_stemmer.cpp.s
+
+.PHONY : Porter2/porter2_stemmer.s
+
+# target to generate assembly for a file
+Porter2/porter2_stemmer.cpp.s:
+	$(MAKE) -f CMakeFiles/rapidJSONExample.dir/build.make CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.s
+.PHONY : Porter2/porter2_stemmer.cpp.s
+
 rapidJSONExample.o: rapidJSONExample.cpp.o
 
 .PHONY : rapidJSONExample.o
@@ -631,6 +658,9 @@ help:
 	@echo "... ContinuousTest"
 	@echo "... ContinuousSubmit"
 	@echo "... rapidJSONExample"
+	@echo "... Porter2/porter2_stemmer.o"
+	@echo "... Porter2/porter2_stemmer.i"
+	@echo "... Porter2/porter2_stemmer.s"
 	@echo "... rapidJSONExample.o"
 	@echo "... rapidJSONExample.i"
 	@echo "... rapidJSONExample.s"

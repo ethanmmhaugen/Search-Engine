@@ -11,7 +11,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -Wextra -pedantic)
 
 include(CTest)
-add_executable(rapidJSONExample rapidJSONExample.cpp key.h indexHandler.h tests.cpp DocParser.h query.h)
+add_executable(rapidJSONExample rapidJSONExample.cpp key.h indexHandler.h tests.cpp DocParser.h query.h Porter2/porter2_stemmer.h Porter2/porter2_stemmer.cpp Porter2/hash.h Porter2/string_view.h)
 add_executable(tests test.cpp test.cpp DocParser.h)
 add_test(NAME SimpleTest COMMAND tests)
 
