@@ -35,8 +35,8 @@ public:
         orgs.makeEmpty();
     };
 
-    void insertDoc(key doc){
-        info.insert(doc);
+    void insertWord(key word){
+        info.insert(word);
     }
 
     void insertPerson(key person){
