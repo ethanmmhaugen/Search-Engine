@@ -54,6 +54,7 @@ public:
                 info.find(doc.getWords().at(i)).addInst(doc.getUUID());
             }else{
                 info.insert(key(doc.getWords().at(i)));
+                info.find(doc.getWords().at(i)).addInst(doc.getUUID());
             }
         }
     }
@@ -64,6 +65,7 @@ public:
                 info.find(doc.getPeople().at(i)).addInst(doc.getUUID());
             }else{
                 info.insert(key(doc.getPeople().at(i)));
+                info.find(doc.getPeople().at(i)).addInst(doc.getUUID());
             }
         }
     }
@@ -74,6 +76,7 @@ public:
                 info.find(doc.getOrgs().at(i)).addInst(doc.getUUID());
             }else{
                 info.insert(key(doc.getOrgs().at(i)));
+                info.find(doc.getOrgs().at(i)).addInst(doc.getUUID());
             }
         }
     }
@@ -85,6 +88,22 @@ public:
             }
         }
     }
+
+    vector<string> searchWords(const string& word){
+        key uuid = key(word);
+        return info.find(uuid).getInstances();
+    }
+
+    vector<string> searchNames(const string& word){
+        key uuid = key(word);
+        return info.find(uuid).getInstances();
+    }
+
+    vector<string> searchOrgs(const string& word){
+        key uuid = key(word);
+        return info.find(uuid).getInstances();
+    }
+
 };
 
 
