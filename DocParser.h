@@ -9,7 +9,6 @@
 #include "key.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/document.h"
-#include "Porter2/porter2_stemmer.h"
 
 using namespace rapidjson;
 using namespace std;
@@ -67,7 +66,6 @@ public:
         string temp;
         while(ss>>temp){
             //CAN ADD STEMMING HERE
-            Porter2Stemmer::stem(temp);
             doc.addWords(temp);
             dictionary.push_back(temp);
         }
