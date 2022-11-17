@@ -56,9 +56,6 @@ public:
     void addInst(string name){
         instances.push_back(name);
     };
-    vector<string> getInstances(){
-        return instances;
-    }
 
     friend ostream& operator << (ostream& out, const key x){
         out << x.word;

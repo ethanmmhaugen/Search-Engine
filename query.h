@@ -11,7 +11,6 @@
 #include <iostream>
 #include <sstream>
 #include "Porter2/porter2_stemmer.h"
-#include "indexHandler.h"
 
 using namespace std;
 
@@ -19,7 +18,6 @@ class query {
 private:
     vector<string> queries;
     vector<string> answers;
-    indexHandler ih;
 
 public:
     query() = default;
@@ -38,21 +36,8 @@ public:
             queries.push_back(buff);
             cout << queries.size() << endl;
         }
-    }
 
-    void searchQuery(){
-        vector<vector<string>> queryAnswerList;
-        for(auto & querie : queries){
-            vector<string> uuidList;
-            uuidList = ih.searchWords(querie);
-            queryAnswerList.push_back(uuidList);
-        }
-        for(auto & i : queryAnswerList){
-            for(auto & j : i){
-                //uuid of file
-                cout << j << endl;
-            }
-        }
+
     }
 
     void printAnswers(){
