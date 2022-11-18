@@ -28,7 +28,7 @@ public:
         instances =  rhs.instances;
     };
 
-    key operator=(const key&rhs){
+    key& operator=(const key&rhs){
         word = rhs.word;
         return *this;
     };
