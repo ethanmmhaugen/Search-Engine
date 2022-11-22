@@ -9,6 +9,7 @@
 #include "key.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/document.h"
+#include "Porter2/porter2_stemmer.h"
 
 using namespace rapidjson;
 using namespace std;
