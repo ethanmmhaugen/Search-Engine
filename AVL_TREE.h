@@ -296,12 +296,12 @@ private:
     Comparable find(const Comparable &x, AvlNode *t) const
     {
         if (t == nullptr)
-            return false;
+            throw std::runtime_error ("Not Found");
 
         else if (x < t->element)
-            return contains(x, t->left);
+            return find(x, t->left);
         else if (t->element < x)
-            return contains(x, t->right);
+            return find(x, t->right);
         else
             return (t->element); // Match
     }
