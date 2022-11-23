@@ -9,6 +9,7 @@
 #include "AVL_TREE.h"
 #include "myDocument.h"
 #include "query.h"
+#include "indexHandler.h"
 
 // RapidJSON headers we need for our parsing.
 #include "rapidjson/istreamwrapper.h"
@@ -23,8 +24,9 @@ void testFileSystem(const string &path);
 
 int main()
 {
-    query theboy;
-    theboy.getQuery();
+    indexHandler handles;
+    handles.reloadTree("sample_data/reloadTest.txt");
+    handles.printOrgs();
 
 }
 

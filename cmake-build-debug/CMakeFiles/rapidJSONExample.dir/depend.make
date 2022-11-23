@@ -7,9 +7,12 @@ CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.o: ../Porter2/porter
 CMakeFiles/rapidJSONExample.dir/Porter2/porter2_stemmer.cpp.o: ../Porter2/string_view.h
 
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../AVL_TREE.h
+CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../DocParser.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../Porter2/hash.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../Porter2/porter2_stemmer.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../Porter2/string_view.h
+CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../indexHandler.h
+CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../key.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../myDocument.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../query.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../rapidJSONExample.cpp

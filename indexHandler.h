@@ -7,6 +7,7 @@
 #include "myDocument.h"
 #include "DocParser.h"
 #include <filesystem>
+#include "Porter2/porter2_stemmer.h"
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
 #define FINALPROJEXAMPLES_INDEX_H
@@ -18,24 +19,35 @@ private:
     AvlTree<key> peeps;
     AvlTree<key> orgs;
     DocParser parser;
+    query google;
 
 public:
     indexHandler() = default;
 
     indexHandler(const indexHandler&rhs){
         info = rhs.info;
+        peeps = rhs.peeps;
+        orgs = rhs.orgs;
+        parser = rhs.parser;
     };
 
     indexHandler operator=(const indexHandler&rhs){
         info = rhs.info;
+        peeps = rhs.peeps;
+        orgs = rhs.orgs;
+        parser = rhs.parser;
         return *this;
     };
 
     ~indexHandler(){
+        clear();
+    };
+
+    void clear(){
         info.makeEmpty();
         peeps.makeEmpty();
         orgs.makeEmpty();
-    };
+    }
 
     void insertWord(key word){
         info.insert(word);
@@ -52,31 +64,31 @@ public:
     //function for adding instances of a word to index or adding to word index
     void scanDocWords(myDocument doc){
         for(size_t i = 0; i<doc.getWords().size(); ++i){
-            if(info.contains(doc.getWords().at(i))){
-                info.find(doc.getWords().at(i)).addInst(doc.getUUID());
-            }else{
+            Porter2Stemmer::stem(doc.getWords().at(i));
+            if(!info.contains(doc.getWords().at(i))) {
                 info.insert(key(doc.getWords().at(i)));
             }
+            info.find(key(doc.getWords().at(i))).addInst(doc.getUUID());
         }
     }
 
     void scanDocPeople(myDocument doc){
         for(size_t i = 0; i<doc.getPeople().size(); ++i){
-            if(peeps.contains(doc.getPeople().at(i))){
-                peeps.find(doc.getPeople().at(i)).addInst(doc.getUUID());
-            }else{
+            Porter2Stemmer::stem(doc.getPeople().at(i));
+            if(!peeps.contains(doc.getPeople().at(i))) {
                 peeps.insert(key(doc.getPeople().at(i)));
             }
+            peeps.find(key(doc.getPeople().at(i))).addInst(doc.getUUID());
         }
     }
 
     void scanDocOrgs(myDocument doc){
         for(size_t i = 0; i<doc.getOrgs().size(); ++i){
-            if(orgs.contains(doc.getOrgs().at(i))){
-                orgs.find(doc.getOrgs().at(i)).addInst(doc.getUUID());
-            }else{
+            Porter2Stemmer::stem(doc.getOrgs().at(i));
+            if(!orgs.contains(doc.getOrgs().at(i))) {
                 orgs.insert(key(doc.getOrgs().at(i)));
             }
+            orgs.find(key(doc.getOrgs().at(i))).addInst(doc.getUUID());
         }
     }
 
@@ -91,6 +103,55 @@ public:
             }
         }
     }
+
+    void storeTree(){
+
+    }
+
+    void reloadTree(string filename){
+        orgs.makeEmpty();
+        ifstream file(filename);
+        if(!file.is_open()){
+            cout << "Error, file not found" << endl;
+        }
+        string buff;
+        while(!file.eof()){
+            getline(file, buff);
+            stringstream s(buff);
+            getline(s, buff, ' ');
+            key insert = key(buff);
+            while(!s.eof()){
+                getline(s, buff, ' ');
+                insert.addInst(buff);
+            }
+            orgs.balancedInsert(insert);
+        }
+
+    }
+
+    void search(){
+        vector<string> search = google.getQuery();
+
+    }
+
+    void printInfo(){
+        info.prettyPrintTree();
+    }
+
+    void printPeeps(){
+        peeps.prettyPrintTree();
+    }
+
+    void printOrgs(){
+        orgs.prettyPrintTree();
+    }
+
+
+    void checkKey(string code){
+        orgs.find(code).printAllInstances();
+    }
+
+
 };
 
 

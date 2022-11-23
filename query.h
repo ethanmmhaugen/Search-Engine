@@ -22,7 +22,7 @@ private:
 public:
     query() = default;
 
-    void getQuery(){
+    vector<string> getQuery(){
         cout << "Google Search but better... whatchu want?: " << endl;
         string ans;
         getline(cin, ans);
@@ -34,10 +34,9 @@ public:
             Porter2Stemmer::stem(buff);
             cout << buff << endl;
             queries.push_back(buff);
-            cout << queries.size() << endl;
+
         }
-
-
+        return queries;
     }
 
     void printAnswers(){

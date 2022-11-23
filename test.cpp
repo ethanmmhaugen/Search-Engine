@@ -2,6 +2,7 @@
 #include "catch2/catch.hpp"
 #include "AVL_TREE.h"
 #include "key.h"
+#include "indexHandler.h"
 #include <string>
 
 using namespace std;
@@ -42,5 +43,15 @@ TEST_CASE("Check that AVL tree works"){
         //CHECK(tree.find("") == 20);
         tree.~AvlTree();
 
+    }
+
+    SECTION("Index Handler"){
+        indexHandler index;
+        index.populate("sample_data/coll_1");
+        index.printOrgs();
+        index.printInfo();
+        index.printPeeps();
+        index.checkKey("reuters");
+        index.printAll();
     }
 }

@@ -85,13 +85,13 @@ public:
         return contains(x, root);
     }
 
-    Comparable find(const Comparable &x) const
+    Comparable& find(const Comparable &x) const
     {
         if(contains(x)) {
             return find(x, root);
         }
         else{
-            throw std::runtime_error ("Not Found");
+            throw std::runtime_error ("Not Found, in main find");
         }
     }
 
@@ -139,6 +139,11 @@ public:
         insert(x, root);
     }
 
+    void balancedInsert(const Comparable &x)
+    {
+        balancedInsert(x, root);
+    }
+
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
@@ -174,6 +179,23 @@ private:
         // This will call balance on the way back up the tree. It will only balance once where
         // the tree got imbalanced.
         balance(t);
+    }
+
+    void balancedInsert(const Comparable &x, AvlNode *&t)
+    {
+        if (t == nullptr)
+        {
+            t = new AvlNode{x, nullptr, nullptr, 0};
+            return; // a single node is always balanced
+        }
+
+        if (x < t->element)
+            balancedInsert(x, t->left);
+        else if (t->element < x)
+            balancedInsert(x, t->right);
+        else
+        {
+        } // Duplicate; do nothing
     }
 
     int balanceFactor(AvlNode* t){
@@ -293,7 +315,7 @@ private:
             return true; // Match
     }
 
-    Comparable find(const Comparable &x, AvlNode *t) const
+    Comparable& find(const Comparable &x, AvlNode *t) const
     {
         if (t == nullptr)
             throw std::runtime_error ("Not Found");
@@ -410,22 +432,13 @@ private:
      */
     void rotateWithLeftChild(AvlNode *&k2)
     {
-#ifdef DEBUG
-        cout << "need to rotateWithLeftChild for node " << k2->element << endl;
-        cout << "Before:" << endl;
-        prettyPrintTree();
-#endif
-
         AvlNode *k1 = k2->left;
         k2->left = k1->right;
         k1->right = k2;
         k2->height = max(height(k2->left), height(k2->right)) + 1;
         k1->height = max(height(k1->left), k2->height) + 1;
         k2 = k1;
-#ifdef DEBUG
-        cout << "After:" << endl;
-        prettyPrintTree();
-#endif
+
     }
 
     /**
@@ -435,23 +448,12 @@ private:
      */
     void rotateWithRightChild(AvlNode *&k1)
     {
-#ifdef DEBUG
-        cout << "need to rotateWithRightChild for node " << k1->element << endl;
-        cout << "Before:" << endl;
-        prettyPrintTree();
-
-#endif
-
         AvlNode *k2 = k1->right;
         k1->right = k2->left;
         k2->left = k1;
         k1->height = max(height(k1->left), height(k1->right)) + 1;
         k2->height = max(height(k2->right), k1->height) + 1;
         k1 = k2;
-#ifdef DEBUG
-        cout << "After:" << endl;
-        prettyPrintTree();
-#endif
     }
 
     /**
@@ -462,9 +464,6 @@ private:
      */
     void doubleWithLeftChild(AvlNode *&k3)
     {
-#ifdef DEBUG
-        cout << "doubleWithLeftChild" << endl;
-#endif
         rotateWithRightChild(k3->left);
         rotateWithLeftChild(k3);
     }
@@ -477,9 +476,6 @@ private:
      */
     void doubleWithRightChild(AvlNode *&k1)
     {
-#ifdef DEBUG
-        cout << "doubleWithRightChild" << endl;
-#endif
         rotateWithLeftChild(k1->right);
         rotateWithRightChild(k1);
     }
