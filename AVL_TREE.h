@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
+#include <ostream>
 
 using namespace std;
 
@@ -153,6 +154,14 @@ public:
         return t;
     }
 
+    void saveToFile(ofstream& file, string& name){
+        file.open(name);
+        if(file.good()){
+            saveToFile(file, root);
+        }
+        file.close();
+    }
+
 private:
     /**
      * Internal method to insert into a subtree.
@@ -160,6 +169,14 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
+    void saveToFile(ofstream& file, AvlNode* t){
+        if(t == NULL){
+            return;
+        }
+        file >> t->element.toString();
+        saveToFile(file, t->left);
+        saveToFile(file, t->right);
+    }
     void insert(const Comparable &x, AvlNode *&t)
     {
         if (t == nullptr)

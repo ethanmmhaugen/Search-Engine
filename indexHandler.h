@@ -7,6 +7,7 @@
 #include "myDocument.h"
 #include "DocParser.h"
 #include <filesystem>
+#include <ostream>
 #include "Porter2/porter2_stemmer.h"
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
@@ -20,6 +21,11 @@ private:
     AvlTree<key> orgs;
     DocParser parser;
     query google;
+
+    key storeinfoTree(string filename){
+
+
+    }
 
 public:
     indexHandler() = default;
@@ -104,8 +110,9 @@ public:
         }
     }
 
-    void storeTree(){
-
+    void storeTree(AvlTree<key>& tree, string& filename){
+        ofstream file;
+        tree.saveToFile(file, filename);
     }
 
     void reloadTree(string filename){
@@ -131,7 +138,11 @@ public:
 
     void search(){
         vector<string> search = google.getQuery();
+        string orgs = "orgs";
+        if(transform(search[0].begin(), search[0].end(), search[0].begin(), ::tolower) == orgs);
+        for(unsigned i = 0; i<search.size(); i++){
 
+        }
     }
 
     void printInfo(){

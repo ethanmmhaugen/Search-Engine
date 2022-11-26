@@ -61,6 +61,28 @@ public:
         out << x.word;
         return out;
     }
+    friend istream& operator >> (istream& in, const key x){
+        in >> x.word;
+        return in;
+    }
+    string getNameandInstances(){
+        string uuids = word;
+        for(int i = 0; i<instances.size(); i++){
+            uuids += " ";
+            uuids += instances.at(i);
+        }
+        return uuids;
+    }
+
+    string toString(){
+        string ans;
+        ans = word;
+        for(int i = 0; i<instances.size(); i++){
+            ans+= " ";
+            ans+= instances.at(i);
+        }
+        return ans;
+    }
 
 };
 
