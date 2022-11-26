@@ -173,6 +173,7 @@ private:
         if(t == NULL){
             return;
         }
+        //string name = t->element.toString();
         file >> t->element.toString();
         saveToFile(file, t->left);
         saveToFile(file, t->right);
