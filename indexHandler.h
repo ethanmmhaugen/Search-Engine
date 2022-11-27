@@ -111,7 +111,7 @@ public:
     }
 
     void storeTree(AvlTree<key>& tree, string& filename){
-        ofstream file;
+        ifstream file;
         tree.saveToFile(file, filename);
     }
 
@@ -136,7 +136,7 @@ public:
 
     }
 
-    void search(){
+    /*void search(){
         vector<string> search = google.getQuery();
         string orgs = "orgs";
         if(transform(search[0].begin(), search[0].end(), search[0].begin(), ::tolower) == orgs);
@@ -144,7 +144,7 @@ public:
 
         }
     }
-
+    */
     void printInfo(){
         info.prettyPrintTree();
     }

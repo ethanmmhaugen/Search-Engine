@@ -10,7 +10,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
-#include <ostream>
 
 using namespace std;
 
@@ -154,7 +153,7 @@ public:
         return t;
     }
 
-    void saveToFile(ofstream& file, string& name){
+    void saveToFile(ifstream& file, string& name){
         file.open(name);
         if(file.good()){
             saveToFile(file, root);
@@ -169,7 +168,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void saveToFile(ofstream& file, AvlNode* t){
+    void saveToFile(ifstream& file, AvlNode* t){
         if(t == NULL){
             return;
         }

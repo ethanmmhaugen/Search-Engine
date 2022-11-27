@@ -13,6 +13,8 @@ algorithm
 -
 iostream
 -
+ostream
+-
 
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/DocParser.h
 iostream
@@ -80,6 +82,8 @@ myDocument.h
 DocParser.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/DocParser.h
 filesystem
+-
+ostream
 -
 Porter2/porter2_stemmer.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/Porter2/porter2_stemmer.h
