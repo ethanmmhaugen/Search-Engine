@@ -7,7 +7,7 @@
 #include "myDocument.h"
 #include "DocParser.h"
 #include <filesystem>
-#include <ostream>
+#include <fstream>
 #include "Porter2/porter2_stemmer.h"
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
@@ -110,12 +110,12 @@ public:
             }
         }
     }
-/*
+
     void storeTree(AvlTree<key>& tree, string& filename){
         ifstream file;
         tree.saveToFile(file, filename);
     }
-*/
+
     void reloadTree(const string& filename){
         orgs.makeEmpty();
         ifstream file(filename);

@@ -3,7 +3,7 @@
 //
 #include <string>
 #include <vector>
-#include <iostream>
+#include <fstream>
 
 
 #ifndef FINALPROJEXAMPLES_KEY_H
@@ -57,16 +57,16 @@ public:
         instances.push_back(name);
     };
 
-    friend ostream& operator << (ostream& out, const key x){
-        out << x.word;
+    friend fstream& operator << (fstream& out, const key x){
+        out << x.toString();
         return out;
     }
-    /*
-    friend istream& operator >> (istream& in, const key x){
+/*
+    friend fstream& operator >> (fstream& in, const key x){
         in >> x.toString();
         return in;
     }
-    */
+*/
     string getNameandInstances(){
         string uuids = word;
         for(int i = 0; i<instances.size(); i++){
@@ -80,7 +80,7 @@ public:
         return instances;
     }
 
-    string toString() {
+    string toString() const{
         string ans;
         ans = word;
         for(int i = 0; i<instances.size(); i++){
