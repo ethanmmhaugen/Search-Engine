@@ -141,7 +141,7 @@ public:
         vector<string> search = google.getQuery();
         int andor = 0;
         for(auto & i : search){
-            if(i == "or"){
+            if(i == "and"){
                 andor = 1;
             }
         }
@@ -176,10 +176,10 @@ public:
         }
         //remove duplicates(?)
         if(andor == 1){
-            //code to remove duplicates
+            //code to remove unique values??
         }
         else{
-            //code to remove unique values??
+            //code to remove duplicates
 
         }
 
