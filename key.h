@@ -61,11 +61,12 @@ public:
         out << x.word;
         return out;
     }
+    /*
     friend istream& operator >> (istream& in, const key x){
         in >> x.toString();
         return in;
     }
-
+    */
     string getNameandInstances(){
         string uuids = word;
         for(int i = 0; i<instances.size(); i++){
@@ -73,6 +74,10 @@ public:
             uuids += instances.at(i);
         }
         return uuids;
+    }
+
+    vector<string> getInstances(){
+        return instances;
     }
 
     string toString() {

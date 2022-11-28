@@ -202,6 +202,9 @@
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/tests.cpp">
 			<Option target="rapidJSONExample"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/userInterface.h">
+			<Option target="rapidJSONExample"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -106,16 +106,17 @@ public:
                 scanDocOrgs(doc);
                 scanDocPeople(doc);
                 scanDocWords(doc);
+                //INSERT NAME UUID PAIR TO HASHMAP HERE
             }
         }
     }
-
+/*
     void storeTree(AvlTree<key>& tree, string& filename){
         ifstream file;
         tree.saveToFile(file, filename);
     }
-
-    void reloadTree(string filename){
+*/
+    void reloadTree(const string& filename){
         orgs.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
@@ -136,15 +137,56 @@ public:
 
     }
 
-    /*void search(){
+    void search(){
         vector<string> search = google.getQuery();
-        string orgs = "orgs";
-        if(transform(search[0].begin(), search[0].end(), search[0].begin(), ::tolower) == orgs);
-        for(unsigned i = 0; i<search.size(); i++){
+        int andor = 0;
+        for(auto & i : search){
+            if(i == "or"){
+                andor = 1;
+            }
+        }
+        vector<string> results;
+        vector<string> wordResults;
+        //search through orgs index
+        if(search[0] == "org"){
+            for(unsigned i = 1; i<search.size(); i++){
+                wordResults = orgs.find(search[i]).getInstances();
+                for(auto & wordResult : wordResults){
+                    results.push_back(wordResult);
+                }
+            }
+        }
+        //search through peeps index
+        else if(search[0] == "person"){
+            for(unsigned i = 1; i<search.size(); i++){
+                wordResults = peeps.find(search[i]).getInstances();
+                for(auto & wordResult : wordResults){
+                    results.push_back(wordResult);
+                }
+            }
+        }
+        //search through normal index
+        else {
+            for(auto & i : search){
+                wordResults = info.find(i).getInstances();
+                for(auto & wordResult : wordResults){
+                    results.push_back(wordResult);
+                }
+            }
+        }
+        //remove duplicates(?)
+        if(andor == 1){
+            //code to remove duplicates
+        }
+        else{
+            //code to remove unique values??
 
         }
+
+        google.storeAnswers(results);
+        google.printAnswers();
     }
-    */
+
     void printInfo(){
         info.prettyPrintTree();
     }
@@ -158,11 +200,9 @@ public:
     }
 
 
-    void checkKey(string code){
+    void checkKey(string& code){
         orgs.find(code).printAllInstances();
     }
-
-
 };
 
 
