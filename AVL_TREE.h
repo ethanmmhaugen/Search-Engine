@@ -155,7 +155,7 @@ public:
     }
 
     void saveToFile(string& name){
-        fstream file;
+        ofstream file;
         file.open(name);
 
             if(root == nullptr){
