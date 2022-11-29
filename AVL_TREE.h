@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
@@ -156,12 +157,36 @@ public:
     void saveToFile(string& name){
         fstream file;
         file.open(name);
+
+            if(root == nullptr){
+                return;
+            }
+            queue<AvlNode*> level;
+            level.push(root);
+            while(!level.empty()){
+                AvlNode* node = level.front();
+                level.pop();
+                file << node->element.toString() << endl;
+                if(node->left != nullptr){
+                    level.push(node->left);
+                }
+                if(node->right != nullptr){
+                    level.push(node->right);
+                }
+            }
+
+        file.close();
+    }
+/*
+    void saveToFile(string& name){
+        fstream file;
+        file.open(name);
         if(file.good()){
             saveToFile(file, root);
         }
         file.close();
     }
-
+*/
 private:
     /**
      * Internal method to insert into a subtree.
@@ -169,7 +194,8 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void saveToFile(fstream& file, AvlNode* t){
+
+ /*   void saveToFile(fstream& file, AvlNode* t){
         if(t == NULL){
             return;
         }
@@ -178,6 +204,7 @@ private:
         saveToFile(file, t->left);
         saveToFile(file, t->right);
     }
+    */
     void insert(const Comparable &x, AvlNode *&t)
     {
         if (t == nullptr)

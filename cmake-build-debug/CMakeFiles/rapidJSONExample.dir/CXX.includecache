@@ -13,6 +13,8 @@ algorithm
 -
 fstream
 -
+queue
+-
 
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/DocParser.h
 iostream

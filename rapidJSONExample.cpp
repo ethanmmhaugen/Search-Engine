@@ -25,11 +25,16 @@ void testFileSystem(const string &path);
 int main()
 {
     indexHandler handles;
-    //handles.reloadTree("sample_data/reloadTest.txt");
+    //
     handles.populate("sample_data");
     handles.printOrgs();
-    handles.search();
+    //handles.search();
     handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
+    handles.reloadTree("sample_data/reloadTest.txt");
+    handles.printOrgs();
+    handles.reloadTree("hahaitworks.txt");
+    handles.printOrgs();
+
 }
 
 /**
