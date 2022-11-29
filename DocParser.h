@@ -64,13 +64,21 @@ public:
 
         while(ss>>temp){
             Porter2Stemmer::stem(temp);
+            string delimit = " !@#$%^&*()+=/.,'\r''\n'";
+            for(size_t i =0; i<temp.size(); ++i){
+                for(size_t j=0; i<delimit.size();++i){
+                    if(temp.at(i) == delimit.at(j)){
+                        temp.erase(temp.at(i));
+                        cout << "DOC PARSER STEMMING ACTUALLY GETS USED" << endl;
+                    }
+                }
+            }
             doc.addWords(temp);
         }
 
         input.close();
         return doc;
     }
-
     };
 
 
