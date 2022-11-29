@@ -153,7 +153,8 @@ public:
         return t;
     }
 
-    void saveToFile(ifstream& file, string& name){
+    void saveToFile(string& name){
+        fstream file;
         file.open(name);
         if(file.good()){
             saveToFile(file, root);
@@ -168,12 +169,12 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void saveToFile(ifstream& file, AvlNode* t){
+    void saveToFile(fstream& file, AvlNode* t){
         if(t == NULL){
             return;
         }
         //string name = t->element.toString();
-        file >> t->element.toString();
+        file << t->element.toString() << endl;
         saveToFile(file, t->left);
         saveToFile(file, t->right);
     }

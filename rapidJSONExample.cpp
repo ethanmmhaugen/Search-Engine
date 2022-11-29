@@ -29,7 +29,7 @@ int main()
     handles.populate("sample_data");
     handles.printOrgs();
     handles.search();
-
+    handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
 }
 
 /**

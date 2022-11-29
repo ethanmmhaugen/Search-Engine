@@ -111,9 +111,8 @@ public:
         }
     }
 
-    void storeTree(AvlTree<key>& tree, string& filename){
-        ifstream file;
-        tree.saveToFile(file, filename);
+    void storeTree(AvlTree<key> tree, string filename){
+        tree.saveToFile(filename);
     }
 
     void reloadTree(const string& filename){
@@ -202,6 +201,10 @@ public:
 
     void checkKey(string& code){
         orgs.find(code).printAllInstances();
+    }
+
+    AvlTree<key> getOrgs(){
+        return this->orgs;
     }
 };
 

@@ -61,12 +61,17 @@ public:
         out << x.toString();
         return out;
     }
+
+    friend ostream& operator << (ostream& out, const key x){
+        out << x.toString();
+        return out;
+    }
 /*
     friend fstream& operator >> (fstream& in, const key x){
         in >> x.toString();
         return in;
     }
-*/
+    */
     string getNameandInstances(){
         string uuids = word;
         for(int i = 0; i<instances.size(); i++){
