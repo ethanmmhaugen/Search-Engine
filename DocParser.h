@@ -18,10 +18,6 @@ using namespace std;
 #define FINALPROJEXAMPLES_DOCPARSER_H
 
 class DocParser {
-private:
-    vector<myDocument> directory;
-    vector<string> dictionary;
-
 public:
     myDocument readJsonFile(const string &fileName) {
         myDocument doc;
@@ -65,14 +61,13 @@ public:
         auto text = d["text"].GetString();
         istringstream ss(text);
         string temp;
+
         while(ss>>temp){
-            //CAN ADD STEMMING HERE
+            Porter2Stemmer::stem(temp);
             doc.addWords(temp);
-            dictionary.push_back(temp);
         }
 
         input.close();
-        directory.push_back(doc);
         return doc;
     }
 
