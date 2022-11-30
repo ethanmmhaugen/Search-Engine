@@ -74,7 +74,7 @@ public:
     */
     string getNameandInstances(){
         string uuids = word;
-        for(int i = 0; i<instances.size(); i++){
+        for(size_t i = 0; i<instances.size(); i++){
             uuids += " ";
             uuids += instances.at(i);
         }
@@ -88,7 +88,7 @@ public:
     string toString() const{
         string ans;
         ans = word;
-        for(int i = 0; i<instances.size(); i++){
+        for(size_t i = 0; i<instances.size(); i++){
             ans+= " ";
             ans+= instances.at(i);
         }
