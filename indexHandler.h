@@ -8,6 +8,7 @@
 #include "DocParser.h"
 #include <filesystem>
 #include <fstream>
+#include <unordered_map>
 #include "Porter2/porter2_stemmer.h"
 
 #ifndef FINALPROJEXAMPLES_INDEX_H
@@ -21,6 +22,7 @@ private:
     AvlTree<key> orgs;
     DocParser parser;
     query google;
+    unordered_map<string,string> hash;
 
     key storeinfoTree(string filename){
 
@@ -107,6 +109,7 @@ public:
                 scanDocPeople(doc);
                 scanDocWords(doc);
                 //INSERT NAME UUID PAIR TO HASHMAP HERE
+                hash[doc.getUUID()] = doc.getName();
             }
         }
     }
