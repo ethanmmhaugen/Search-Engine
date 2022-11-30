@@ -184,6 +184,17 @@ public:
             //code to remove duplicates
 
         }
+        //duplicate remover but not sure if it works
+        vector<string> duplicateChecker;
+        for(size_t i = 0; i<results.size();++i){
+            duplicateChecker.push_back(results.at(i));
+            if(std::any_of(duplicateChecker.begin(), duplicateChecker.end(), results.at(i))){
+                std::remove(results.at(i).begin(), results.at(i).end(), results.at(i));
+            }else{
+                continue;
+            }
+        }
+
 
         results = UuidtoTitles(results);
 
