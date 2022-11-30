@@ -185,8 +185,18 @@ public:
 
         }
 
+        results = UuidtoTitles(results);
+
         google.storeAnswers(results);
         google.printAnswers();
+    }
+
+    vector<string> UuidtoTitles(vector<string> uuids){
+        vector<string> answers;
+        for(size_t i = 0; i<uuids.size();++i){
+            answers.push_back(hash[uuids.at(i)]);
+        }
+        return answers;
     }
 
     void printInfo(){
