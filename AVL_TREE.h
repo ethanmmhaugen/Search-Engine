@@ -159,6 +159,7 @@ public:
         file.open(name);
 
             if(root == nullptr){
+                file.close();
                 return;
             }
             queue<AvlNode*> level;

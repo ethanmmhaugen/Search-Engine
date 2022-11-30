@@ -24,6 +24,8 @@ private:
     query google;
     unordered_map<string,string> hash;
 
+    vector<string> uuids;
+
     key storeinfoTree(string filename){
 
 
@@ -108,14 +110,30 @@ public:
                 scanDocOrgs(doc);
                 scanDocPeople(doc);
                 scanDocWords(doc);
-                //INSERT NAME UUID PAIR TO HASHMAP HERE
                 hash[doc.getUUID()] = doc.getName();
+                uuids.push_back(doc.getUUID());
             }
         }
     }
 
     void storeTree(AvlTree<key> tree, string filename){
         tree.saveToFile(filename);
+    }
+
+    void storeMap(unordered_map<string,string> hash, vector<string> uuids, string name){
+        ofstream file;
+        file.open(name);
+
+        if(hash.empty()){
+            file.close();
+            return;
+        }
+
+        for(size_t i = 0; i<hash.size();++i){
+            file << hash[uuids.at(i)] << endl;
+        }
+
+        file.close();
     }
 
     void reloadTree(const string& filename){
