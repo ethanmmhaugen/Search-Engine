@@ -47,14 +47,18 @@ public:
         auto persons = d["entities"]["persons"].GetArray();
         for (auto &p : persons)
         {
-            doc.addPeople(p["name"].GetString());
+            string tempP = p["name"].GetString();
+            Porter2Stemmer::stem(tempP);
+            doc.addPeople(tempP);
         }
 
         //setting all orgs
         auto organizations = d["entities"]["organizations"].GetArray();
         for (auto &p : organizations)
         {
-            doc.addOrgs(p["name"].GetString());
+            string tempO = p["name"].GetString();
+            Porter2Stemmer::stem(tempO);
+            doc.addOrgs(tempO);
         }
 
         //setting all words
@@ -64,15 +68,15 @@ public:
 
         while(ss>>temp){
             Porter2Stemmer::stem(temp);
-            string delimit = " !@#$%^&*()+=/.,'\r''\n'";
+            /*string delimit = " !@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<temp.size(); ++i){
-                for(size_t j=0; i<delimit.size();++i){
+                for(size_t j=0; j<delimit.size();++j){
                     if(temp.at(i) == delimit.at(j)){
-                        temp.erase(temp.at(i));
+                        temp.erase(temp.begin() + i);
                         cout << "DOC PARSER STEMMING ACTUALLY GETS USED" << endl;
                     }
                 }
-            }
+            }*/
             doc.addWords(temp);
         }
 

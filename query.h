@@ -35,7 +35,7 @@ public:
             getline(s, buff, ' ');
             //ADD STEMMING
             Porter2Stemmer::stem(buff);
-            string delimit = " !@#$%^&*()+=/.,'\r''\n'";
+            /*string delimit = " !@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<buff.size(); ++i){
                 for(size_t j=0; i<delimit.size();++i){
                     if(buff.at(i) == delimit.at(j)){
@@ -43,9 +43,8 @@ public:
                         cout << "QUERY SPEC CHAR STEMMING ACTUALLY GETS USED" << endl;
                     }
                 }
-            }
-            
-            cout << buff << endl;
+            }*/
+
             queries.push_back(buff);
 
         }
@@ -70,10 +69,7 @@ public:
     void printAnswers(){
         cout << "We found these files for you: " << endl;
         for(size_t i = 0; i<answers.size(); i++){
-            cout << answers[i] << ", ";
-            if(i%5 == 0){
-                cout << endl;
-            }
+            cout << answers[i] << endl;
         }
     }
 
