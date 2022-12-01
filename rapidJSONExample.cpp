@@ -28,13 +28,13 @@ int main()
     //
     handles.populate("sample_data");
     handles.printOrgs();
-    //handles.search();
-    handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
+    handles.search();
+    /*handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
     handles.reloadTree("sample_data/reloadTest.txt");
     handles.printOrgs();
     handles.reloadTree("hahaitworks.txt");
     handles.printOrgs();
-
+*/
 }
 
 /**
