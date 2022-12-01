@@ -16,15 +16,21 @@ using namespace std;
 
 class query {
 private:
-    vector<string> queries;
+    vector<string> orgQueries;
+    vector<string> peepQueries;
+    vector<string> wordQueries;
+    vector<string> skipWords;
     vector<string> answers;
-    //add hashmap in here maybe? or get rid of answers and just store the results
-    //and hashmap inside of indexhandler and get rid of return answers method
+    int state;
+    int negState;
+
 
 public:
     query() = default;
 
-    vector<string> getQuery(){
+    void getQuery(){
+        state = 0;
+        negState = 0;
         clearQuery();
         cout << "Google Search but better... whatchu want?: " << endl;
         string ans;
@@ -32,10 +38,28 @@ public:
         stringstream s(ans);
         string buff;
         while(!s.eof()) {
+            negState = 0;
             getline(s, buff, ' ');
+
+            if(buff.find('-') != string::npos){
+                negState = 1;
+                buff = buff.substr(1);
+            }
+            if(buff.find("ORG:")!= string::npos){
+                state = 1;
+                string tmp;
+                buff = buff.substr(4);
+                getline(s,tmp,'\n');
+                buff += tmp;
+            }
+            if(buff.find("PERSON:")!= string::npos){
+                state = 2;
+                buff = buff.substr(7);
+            }
+
             //ADD STEMMING
             Porter2Stemmer::stem(buff);
-            /*string delimit = " !@#$%^&*()+=/.,'\r''\n'";
+            /*string delimit = "!@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<buff.size(); ++i){
                 for(size_t j=0; i<delimit.size();++i){
                     if(buff.at(i) == delimit.at(j)){
@@ -44,15 +68,32 @@ public:
                     }
                 }
             }*/
-
-            queries.push_back(buff);
-
+            if(state == 0 && negState == 0) {
+                wordQueries.push_back(buff);
+            }
+            else if(state == 0 && negState == 1){
+                skipWords.push_back(buff);
+            }
+            else if(state == 1){
+                if(negState == 1){
+                    orgQueries.push_back("negative");
+                }
+                orgQueries.push_back(buff);
+            }
+            else if(state == 2){
+                if(negState == 1){
+                    peepQueries.push_back("negative");
+                }
+                peepQueries.push_back(buff);
+            }
         }
-        return queries;
+
     }
 
     void clearQuery(){
-        queries.clear();
+        orgQueries.clear();
+        peepQueries.clear();
+        wordQueries.clear();
     }
 
     void clearAnswers(){
