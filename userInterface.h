@@ -37,9 +37,7 @@ class supersearch{
                 cout << "Please enter directory name: ";
                 cin >> name;
                 handler.populate(name);
-
                 cout << "Index created and populated";
-
                 continue;
             }else if(input == 'W'){
                 cout << "Please choose a name for your saved index: ";
@@ -49,9 +47,12 @@ class supersearch{
                 cout << "Index successfully stored in " << name << endl;
                 continue;
             }else if(input == 'Q'){
-
+                handler.search();
                 continue;
             }else if(input == 'R'){
+                cout << "Enter the name of index you want to reload: " << endl;
+                cin >> name;
+                handler.reloadTree(name);
                 continue;
             }else if(input == 'E'){
                 input = '.';
@@ -60,6 +61,7 @@ class supersearch{
                 cout << "Invalid option! Please enter another letter and try again." << endl;
                 cout << "Please enter a character and press enter: " << endl;
                 cin >> input;
+                continue;
             }
         }
         cout << "Thank you for using SUPERSEARCH!" << endl;
