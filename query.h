@@ -23,10 +23,13 @@ private:
     vector<string> answers;
     int state;
     int negState;
+    int pageNum;
 
 
 public:
-    query() = default;
+    query(){
+        pageNum = 0;
+    };
 
     void getQuery(){
         state = 0;
@@ -126,9 +129,22 @@ public:
 
     void printAnswers(){
         cout << "We found these files for you: " << endl;
-        for(size_t i = 0; i<answers.size(); i++){
+        for(size_t i = pageNum*15; i<i+15; i++){
             cout << answers[i] << endl;
         }
+    }
+
+    void nextPage(){
+        pageNum+=1;
+    }
+
+    bool prevPage(){
+        if(pageNum < 1){
+            cout << "Can't go back from page 1... nice try shockley" << endl;
+            return false;
+        }
+        pageNum-=1;
+        return true;
     }
 
     string lowerCase(string data){
