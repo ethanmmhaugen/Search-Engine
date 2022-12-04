@@ -174,7 +174,7 @@ public:
             results.push_back(j);
         }
         sort(results.begin(), results.end());
-        for(int i = 1; i<wordqueries.size();++i){
+        for(size_t i = 1; i<wordqueries.size();++i){
             instancesPerWord = info.find(wordqueries[i]).getInstances();
             for (auto &j: instancesPerWord)hcount[j] = +1;
             sort(instancesPerWord.begin(), instancesPerWord.end());
@@ -182,7 +182,14 @@ public:
             results = it;
         }
         //extra weight if word exists in title
-        
+        for(auto & wq : wordqueries){
+            instancesPerWord = info.find(wq).getInstances();
+            for(auto & j : instancesPerWord){
+                if(hash[j].find(wq) != string::npos){
+                    hcount[j] += 10;
+                }
+            }
+        }
 
         //search through peeps index
         /*else if(search[0] == "person"){
