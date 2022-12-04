@@ -51,7 +51,7 @@ public:
                 handler.search();
                 continue;
             }else if(input == 'R'){
-                handler.reloadTree(name);
+                handler.reloadTree("sample_data/reloadTest.txt");
                 continue;
             }else if(input == 'E'){
                 break;

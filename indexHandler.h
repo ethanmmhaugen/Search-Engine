@@ -174,7 +174,8 @@ public:
         for(int i = 1; i<wordqueries.size(); i++){
             instancesPerWord = info.find(wordqueries[i]).getInstances();
             sort(instancesPerWord.begin(), instancesPerWord.end());
-            results.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),results.begin());
+            it.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),it.begin());
+            results = it;
         }
         //search through peeps index
         /*else if(search[0] == "person"){
@@ -220,7 +221,7 @@ public:
 
         results = UuidtoTitles(it);
 
-        google.storeAnswers(it);
+        google.storeAnswers(results);
         google.resultsMenu();
     }
 
