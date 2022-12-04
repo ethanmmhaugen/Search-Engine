@@ -34,10 +34,11 @@ public:
     void getQuery(){
         state = 0;
         negState = 0;
+        string ans;
         clearQuery();
         cout << "Google Search but better... whatchu want?: " << endl;
-        string ans;
-        cin >> ans;
+        cin.ignore();
+        getline(cin, ans);
         stringstream s(ans);
         string buff;
         while(!s.eof()) {
@@ -114,6 +115,7 @@ public:
         orgQueries.clear();
         peepQueries.clear();
         wordQueries.clear();
+        skipWords.clear();
     }
 
     void clearAnswers(){
