@@ -14,6 +14,7 @@
 // RapidJSON headers we need for our parsing.
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/document.h"
+#include "userInterface.h"
 
 using namespace rapidjson;
 using namespace std;
@@ -24,13 +25,16 @@ void testFileSystem(const string &path);
 
 int main()
 {
-    indexHandler handles;
+    supersearch theboy;
+    theboy.superSearch();
+
+    /*indexHandler handles;
     //
     //handles.populate("sample_data");
     handles.reloadTree("sample_data/reloadTest.txt");
     handles.printInfo();
     handles.search();
-    /*handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
+    handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
 
     handles.printOrgs();
     handles.reloadTree("hahaitworks.txt");

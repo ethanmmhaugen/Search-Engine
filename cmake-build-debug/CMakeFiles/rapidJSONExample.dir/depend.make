@@ -38,6 +38,7 @@ CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../rapidjson/msinttypes/
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../rapidjson/rapidjson.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../rapidjson/reader.h
 CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../rapidjson/stream.h
+CMakeFiles/rapidJSONExample.dir/rapidJSONExample.cpp.o: ../userInterface.h
 
 CMakeFiles/rapidJSONExample.dir/tests.cpp.o: ../tests.cpp
 

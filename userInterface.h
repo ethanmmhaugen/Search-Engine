@@ -12,36 +12,37 @@
 using namespace std;
 
 class supersearch{
-
+private:
+public:
     void superSearch(){
         char input;
-
-        cout << "---WELCOME TO SUPERSEARCH: BULLETPROOF---" << endl << "|                                         |" << endl << "|                                         |" << endl << "|                                         |" << endl << "|                                         |"<< endl;
-        cout << "|Select an option below:                  |" << endl;
-        cout << "|I - Create a new index                   |"  << endl;
-        cout << "|W - Write index to file                  |" << endl;
-        cout << "|Q - Query an index                       |" << endl;
-        cout << "|R - Read in index from file              |" << endl;
-        cout << "|E - Exit SUPERSEARCH                     |" << endl;
-        cout << "|_________________________________________|";
-        cout << "Please enter a character and press enter: ";
-
-        cin >> input;
-        toupper(input);
-
         string name;
         indexHandler handler;
 
-        while(input != '.'){
+
+
+
+        while(true){
+            cout << "|----WELCOME TO SUPERSEARCH: BULLETPROOF----|" << endl << "|                                           |" << endl << "|                                           |" << endl << "|                                           |" << endl << "|                                           |"<< endl;
+            cout << "|Select an option below:                    |" << endl;
+            cout << "|I - Upload documents to indices            |" << endl;
+            cout << "|W - Write indices to persistency file      |" << endl;
+            cout << "|Q - Query                                  |" << endl;
+            cout << "|R - Recreate indices from persistency file |" << endl;
+            cout << "|C - Clear indices                          |" << endl;
+            cout << "|E - Exit SUPERSEARCH                       |" << endl;
+            cout << "|___________________________________________|" << endl;
+            cout << "Please enter a character and press enter: "    << endl;
+
+            cin >> input;
+            toupper(input);
             if(input == 'I'){
-                cout << "Please enter directory name: ";
+                cout << "Please enter directory name: " << endl;
                 cin >> name;
                 handler.populate(name);
-                cout << "Index created and populated";
+                cout << "Index created and populated" << endl;
                 continue;
             }else if(input == 'W'){
-                cout << "Please choose a name for your saved index: ";
-                cin >> name;
                 //FIX FROM BEING ONLY STORING ORGS
                 handler.storeTree(handler.getOrgs(), name);
                 cout << "Index successfully stored in " << name << endl;
@@ -50,13 +51,10 @@ class supersearch{
                 handler.search();
                 continue;
             }else if(input == 'R'){
-                cout << "Enter the name of index you want to reload: " << endl;
-                cin >> name;
                 handler.reloadTree(name);
                 continue;
             }else if(input == 'E'){
-                input = '.';
-                continue;
+                break;
             }else{
                 cout << "Invalid option! Please enter another letter and try again." << endl;
                 cout << "Please enter a character and press enter: " << endl;

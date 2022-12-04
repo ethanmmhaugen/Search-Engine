@@ -221,7 +221,7 @@ public:
         results = UuidtoTitles(it);
 
         google.storeAnswers(it);
-        google.printAnswers();
+        google.resultsMenu();
     }
 
     vector<string> UuidtoTitles(vector<string> uuids){

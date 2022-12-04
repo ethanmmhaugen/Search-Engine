@@ -139,6 +139,8 @@ rapidjson/istreamwrapper.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidjson/istreamwrapper.h
 rapidjson/document.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidjson/document.h
+userInterface.h
+/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/userInterface.h
 
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidjson/allocators.h
 rapidjson.h
@@ -347,4 +349,14 @@ rapidjson.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidjson/rapidjson.h
 encodings.h
 /mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/rapidjson/encodings.h
+
+/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/userInterface.h
+iostream
+-
+string
+-
+fstream
+-
+indexHandler.h
+/mnt/c/Users/ethan/OneDrive/Documents/GitHub/assignment-4-search-engine-she-s-bulletproof/indexHandler.h
 
