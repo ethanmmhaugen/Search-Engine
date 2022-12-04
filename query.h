@@ -37,7 +37,7 @@ public:
         clearQuery();
         cout << "Google Search but better... whatchu want?: " << endl;
         string ans;
-        getline(cin, ans);
+        cin >> ans;
         stringstream s(ans);
         string buff;
         while(!s.eof()) {
@@ -150,6 +150,30 @@ public:
     string lowerCase(string data){
         for (char &i: data)i = tolower(i);
         return data;
+    }
+
+    void resultsMenu(){
+        char input;
+        while(true){
+            printAnswers();
+            cout << "|N - next page of results                   |" << endl;
+            cout << "|P - previous page of results               |" << endl;
+            cout << "|E - exit the query and go back to main menu|" << endl;
+            cout << "|Select an option:                          |" << endl;
+
+            cin >> input;
+            if(input == 'N'){
+                nextPage();
+                continue;
+            }
+            else if(input == 'P'){
+                prevPage();
+                continue;
+            }
+            else if(input == 'E'){
+                break;
+            }
+        }
     }
 
 };
