@@ -153,7 +153,8 @@ public:
     }
 
     void search(){
-        vector<string> search = google.getQuery();
+        google.getQuery();
+        vector
         int andor = 0;
         for(auto & i : search){
             if(i == "and"){

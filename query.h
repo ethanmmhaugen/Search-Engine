@@ -91,6 +91,22 @@ public:
 
     }
 
+    vector<string> getOrgQueries(){
+        return orgQueries;
+    }
+
+    vector<string> getPeepQueries(){
+        return peepQueries;
+    }
+
+    vector<string> getWordQueries(){
+        return wordQueries;
+    }
+
+    vector<string> getSkipAnswers(){
+        return skipWords;
+    }
+
     void clearQuery(){
         orgQueries.clear();
         peepQueries.clear();
