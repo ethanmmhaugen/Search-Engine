@@ -14,6 +14,7 @@
 #ifndef FINALPROJEXAMPLES_INDEX_H
 #define FINALPROJEXAMPLES_INDEX_H
 
+using namespace std;
 
 class indexHandler {
 private:
@@ -132,7 +133,7 @@ public:
     }
 
     void reloadTree(const string& filename){
-        orgs.makeEmpty();
+        info.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
             cout << "Error, file not found" << endl;
@@ -147,33 +148,36 @@ public:
                 getline(s, buff, ' ');
                 insert.addInst(buff);
             }
-            orgs.balancedInsert(insert);
+            info.balancedInsert(insert);
         }
 
     }
 
     void search(){
         google.getQuery();
-        vector
-        int andor = 0;
-        for(auto & i : search){
-            if(i == "and"){
-                andor = 1;
-            }
-        }
+        vector<string> orgqueries = google.getOrgQueries();
+        vector<string> peepqueries = google.getPeepQueries();
+        vector<string> wordqueries = google.getWordQueries();
+        vector<string> skipwords = google.getSkipAnswers();
+
         vector<string> results;
-        vector<string> wordResults;
-        //search through orgs index
-        if(search[0] == "org"){
-            for(unsigned i = 1; i<search.size(); i++){
-                wordResults = orgs.find(search[i]).getInstances();
-                for(auto & wordResult : wordResults){
-                    results.push_back(wordResult);
-                }
-            }
+        vector<string> instancesPerWord;
+        vector<string> it;
+        int n = sizeof(results,sizeof(results[0]));
+        //start with first word, since its logical AND
+        // every following uuid needs to be in this first one
+        instancesPerWord = info.find(wordqueries[0]).getInstances();
+        for(auto & j : instancesPerWord){
+            results.push_back(j);
+        }
+        sort(results.begin(), results.end());
+        for(int i = 1; i<wordqueries.size(); i++){
+            instancesPerWord = info.find(wordqueries[i]).getInstances();
+            sort(instancesPerWord.begin(), instancesPerWord.end());
+            results.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),results.begin());
         }
         //search through peeps index
-        else if(search[0] == "person"){
+        /*else if(search[0] == "person"){
             for(unsigned i = 1; i<search.size(); i++){
                 wordResults = peeps.find(search[i]).getInstances();
                 for(auto & wordResult : wordResults){
@@ -198,6 +202,8 @@ public:
             //code to remove duplicates
 
         }
+         */
+
         //duplicate remover but not sure if it works
         /*
         vector<string> duplicateChecker;
@@ -212,9 +218,9 @@ public:
          */
 
 
-        results = UuidtoTitles(results);
+        results = UuidtoTitles(it);
 
-        google.storeAnswers(results);
+        google.storeAnswers(it);
         google.printAnswers();
     }
 

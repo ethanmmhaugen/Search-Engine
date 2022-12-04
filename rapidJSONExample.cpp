@@ -26,11 +26,12 @@ int main()
 {
     indexHandler handles;
     //
-    handles.populate("sample_data");
-    handles.printOrgs();
+    //handles.populate("sample_data");
+    handles.reloadTree("sample_data/reloadTest.txt");
+    handles.printInfo();
     handles.search();
     /*handles.storeTree(handles.getOrgs(), "hahaitworks.txt");
-    handles.reloadTree("sample_data/reloadTest.txt");
+
     handles.printOrgs();
     handles.reloadTree("hahaitworks.txt");
     handles.printOrgs();
