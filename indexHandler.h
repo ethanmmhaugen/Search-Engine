@@ -24,6 +24,7 @@ private:
     DocParser parser;
     query google;
     unordered_map<string,string> hash;
+    unordered_map<string, int> hcount;
 
     vector<string> uuids;
 
@@ -107,6 +108,7 @@ public:
                 scanDocPeople(doc);
                 scanDocWords(doc);
                 hash[doc.getUUID()] = doc.getName();
+                hcount[doc.getUUID()] = 0;
                 uuids.push_back(doc.getUUID());
             }
         }
@@ -168,15 +170,20 @@ public:
         // every following uuid needs to be in this first one
         instancesPerWord = info.find(wordqueries[0]).getInstances();
         for(auto & j : instancesPerWord){
+            hcount[j] +=1;
             results.push_back(j);
         }
         sort(results.begin(), results.end());
-        for(int i = 1; i<wordqueries.size(); i++){
+        for(int i = 1; i<wordqueries.size();++i){
             instancesPerWord = info.find(wordqueries[i]).getInstances();
+            for (auto &j: instancesPerWord)hcount[j] = +1;
             sort(instancesPerWord.begin(), instancesPerWord.end());
             it.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),it.begin());
             results = it;
         }
+        //extra weight if word exists in title
+        
+
         //search through peeps index
         /*else if(search[0] == "person"){
             for(unsigned i = 1; i<search.size(); i++){
