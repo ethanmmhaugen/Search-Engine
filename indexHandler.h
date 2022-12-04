@@ -25,8 +25,8 @@ private:
     query google;
     unordered_map<string,string> hash;
     unordered_map<string, int> hcount;
-
     vector<string> uuids;
+    vector<string> stop{"a", "an", "for", "and", "nor", "but", "or", "yet", "both", "not", "the", "my", "me", "you", "your", "yours", "his", "her", "they", "them", "he", "him", "she", "in", "on", "by"};
 
 public:
     indexHandler() = default;
@@ -72,6 +72,9 @@ public:
     void scanDocWords(myDocument doc){
         for(size_t i = 0; i<doc.getWords().size(); ++i){
             Porter2Stemmer::stem(doc.getWords().at(i));
+            for(auto &j : stop){
+                if (doc.getWords().at(i) == j)continue;
+            }
             if(!info.contains(doc.getWords().at(i))) {
                 info.insert(key(doc.getWords().at(i)));
             }
