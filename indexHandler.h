@@ -253,6 +253,14 @@ public:
     AvlTree<key> getOrgs(){
         return this->orgs;
     }
+
+    AvlTree<key> getPeeps(){
+        return this->peeps;
+    }
+
+    AvlTree<key> getWords(){
+        return this->info;
+    }
 };
 
 
