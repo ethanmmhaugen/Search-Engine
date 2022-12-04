@@ -68,6 +68,7 @@ public:
 
         while(ss>>temp){
             Porter2Stemmer::stem(temp);
+            temp = lowerCase(temp);
             /*string delimit = " !@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<temp.size(); ++i){
                 for(size_t j=0; j<delimit.size();++j){
@@ -82,6 +83,10 @@ public:
 
         input.close();
         return doc;
+    }
+    string lowerCase(string data){
+        for (char &i: data)i = tolower(i);
+        return data;
     }
     };
 

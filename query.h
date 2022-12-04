@@ -59,6 +59,7 @@ public:
 
             //ADD STEMMING
             Porter2Stemmer::stem(buff);
+            buff = lowerCase(buff);
             /*string delimit = "!@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<buff.size(); ++i){
                 for(size_t j=0; i<delimit.size();++i){
@@ -114,8 +115,10 @@ public:
         }
     }
 
-
-
+    string lowerCase(string data){
+        for (char &i: data)i = tolower(i);
+        return data;
+    }
 
 };
 #endif //FINALPROJEXAMPLES_QUERY_H
