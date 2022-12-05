@@ -133,9 +133,15 @@ public:
     }
 
     void printAnswers(){
-        cout << "We found these files for you: " << endl;
-        for(size_t i = pageNum*15, j = pageNum*15; i<min(j+15,answers.size()); i++){
-            cout << answers[i] << endl;
+        if(answers.size()<1){
+            cout << "No files found... try again!" << endl;
+            return;
+        }
+        else {
+            cout << "We found these files for you: " << endl;
+            for (size_t i = pageNum * 15, j = pageNum * 15; i < min(j + 15, answers.size()); i++) {
+                cout << answers[i] << endl;
+            }
         }
     }
 

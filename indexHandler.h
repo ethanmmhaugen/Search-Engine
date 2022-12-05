@@ -249,7 +249,6 @@ public:
     }
 
     void search(){
-        info.prettyPrintTree();
         google.getQuery();
         vector<string> orgqueries = google.getOrgQueries();
         vector<string> peepqueries = google.getPeepQueries();
@@ -577,8 +576,17 @@ public:
                 }
             }
              */
+            string temp;
+            for(size_t i = 0; i<results.size(); i++) {
+                for (size_t j = i + 1; j < results.size(); j++) {
 
-
+                    if (hcount[results[j]] > hcount[results[i]]) {
+                        temp = results[i];
+                        results[i] = results[j];
+                        results[j] = temp;
+                    }
+                }
+            }
             results = UuidtoTitles(results);
 
             google.storeAnswers(results);
