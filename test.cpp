@@ -4,6 +4,7 @@
 #include "key.h"
 #include "indexHandler.h"
 #include <string>
+#include "userInterface.h"
 
 using namespace std;
 
@@ -22,7 +23,6 @@ TEST_CASE("Check that AVL tree works"){
         CHECK(tree.contains(5) == false);
         CHECK(tree.find(20) == 20);
         tree.~AvlTree();
-
     }
 
     SECTION("Using Keys"){
@@ -42,15 +42,30 @@ TEST_CASE("Check that AVL tree works"){
         //CHECK(tree.contains("Mile") == false);
         //CHECK(tree.find("") == 20);
         tree.~AvlTree();
-
     }
 
     SECTION("Index Handler"){
         indexHandler index;
-        index.populate("sample_data/coll_1");
+        index.populate("sample_data");
         index.printOrgs();
         index.printInfo();
         index.printPeeps();
         index.checkKey("reuters");
     }
+
+    SECTION("Check Persistence"){
+       indexHandler handy;
+       handy.populate("sample_data");
+       handy.search();
+       handy.storeTree(handy.getWords(), "testwordtree.txt");
+       CHECK(!handy.getWords().isEmpty());
+       handy.storeMaps(handy.getHashMap(), handy.getCountMap(), handy.getUUIDs(), "testTitleMap.txt", "testCountMap.txt");
+       handy.clear();
+       CHECK(handy.getWords().isEmpty());
+       handy.wordreloadTree("testwordtree.txt");
+       handy.reloadMaps("testTitleMap.txt", "testCountMap.txt");
+       CHECK(!handy.getWords().isEmpty());
+       CHECK(!handy.getHashMap().empty());
+    }
+
 }
