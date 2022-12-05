@@ -2,7 +2,7 @@
 
 ## ** High-level Design of Solution **
 
-![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/tree/main/supersearch/uml.png)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/uml.png)
 
 ### ** User Interface **
 The user interface class is responsible for printing and managing the menu for the user. Through the superSearch function,
@@ -96,7 +96,7 @@ menu instructions to save indexes or exit supersearch.
 
 - Some example queries with the results.
 
-![alt text]((https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/Reloading%20indices%20and%20finding%20fund.png))
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/Reloading%20indices%20and%20finding%20fund.png)
 ![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/persistency%20index%20proof.png)
 ![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/proof%20of%20relevancy%20ranking%20pt%202.png)
 ![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/proof%20of%20relevancy%20ranking.png)
