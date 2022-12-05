@@ -133,7 +133,7 @@ public:
 
     void printAnswers(){
         cout << "We found these files for you: " << endl;
-        for(size_t i = pageNum*15; i<i+15; i++){
+        for(size_t i = pageNum*15; i<max(i+15,answers.size()); i++){
             cout << answers[i] << endl;
         }
     }
