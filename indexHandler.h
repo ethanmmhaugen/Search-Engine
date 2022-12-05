@@ -168,7 +168,6 @@ public:
         vector<string> results;
         vector<string> instancesPerWord;
         vector<string> it;
-        int n = sizeof(results,sizeof(results[0]));
         //start with first word, since its logical AND
         // every following uuid needs to be in this first one
         instancesPerWord = info.find(wordqueries[0]).getInstances();
@@ -181,10 +180,11 @@ public:
             instancesPerWord = info.find(wordqueries[i]).getInstances();
             for (auto &j: instancesPerWord)hcount[j] = +1;
             sort(instancesPerWord.begin(), instancesPerWord.end());
-            it.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),it.begin());
+            set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),std::back_inserter(it));
             results = it;
         }
         //extra weight if word exists in title
+        
         for(auto & wq : wordqueries){
             instancesPerWord = info.find(wq).getInstances();
             for(auto & j : instancesPerWord){
