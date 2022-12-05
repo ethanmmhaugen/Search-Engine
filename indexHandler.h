@@ -276,7 +276,7 @@ public:
             if (!wordqueries.empty()) {
                 //gets starting word
                 try { instancesPerWord = info.find(wordqueries[0]).getInstances(); }
-                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
 
                 for (auto &j: instancesPerWord) {
 
@@ -285,7 +285,7 @@ public:
                             it->second++;
                         }
                     }
-                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
 
                     results.push_back(j);
                 }
@@ -293,7 +293,7 @@ public:
                 //get the rest of that sucker
                 for (size_t i = 1; i < wordqueries.size(); i++) {
                     try{instancesPerWord = info.find(wordqueries[i]).getInstances();}
-                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                     for (auto &j: instancesPerWord) {
                         try {
                             auto it = hcount.find(j);
@@ -308,7 +308,7 @@ public:
                                 }
                             }
                         }
-                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                     }
 
                     sort(instancesPerWord.begin(), instancesPerWord.end());
@@ -329,7 +329,7 @@ public:
                         results.push_back(j);
                     }
                 }
-                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                 sort(results.begin(), results.end());
                 peepStart = true;
 
@@ -348,7 +348,7 @@ public:
                     }
                     sort(results.begin(), results.end());
                 }
-                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                 orgStart = true;
             }
 
@@ -377,7 +377,7 @@ public:
                                              back_inserter(it));
                             results = it;
                         }
-                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                     }
 
                 }
@@ -407,7 +407,7 @@ public:
                                              back_inserter(it));
                             results = it;
                         }
-                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break; end = chrono::system_clock::now();}
                     }
                 }
             }
@@ -516,10 +516,10 @@ public:
 
             google.storeAnswers(results);
             end = chrono::system_clock::now();
-            elapsed_time = end-start;
             google.resultsMenu();
 
         }
+        elapsed_time = end-start;
         return elapsed_time;
     }
 
