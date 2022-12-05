@@ -264,6 +264,8 @@ public:
         vector<string> final;
         bool peepStart = false;
         bool orgStart = false;
+        bool negPeepStart = false;
+        bool negOrgStart = false;
 
         //for loop lets us skip if we hit a catch
         for(int i = 0; i<1; i++) {
@@ -285,7 +287,7 @@ public:
                     results.push_back(j);
                 }
                 sort(results.begin(), results.end());
-                //
+                //get the rest of that sucker
                 for (size_t i = 1; i < wordqueries.size(); i++) {
                     try{instancesPerWord = info.find(wordqueries[i]).getInstances();}
                     catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
@@ -332,74 +334,167 @@ public:
             }
                 //Or just go to Orgs to get our starting results vector
             else {
-                instancesPerWord = orgs.find(orgqueries[0]).getInstances();
-                for (auto &j: instancesPerWord) {
-                    auto it = hcount.find(j);
-                    if (it != hcount.end()) {
-                        it->second++;
+                try {
+                    instancesPerWord = orgs.find(orgqueries[0]).getInstances();
+                    for (auto &j: instancesPerWord) {
+                        auto it = hcount.find(j);
+                        if (it != hcount.end()) {
+                            it->second++;
+                        }
+                        results.push_back(j);
                     }
-                    results.push_back(j);
+                    sort(results.begin(), results.end());
                 }
-                sort(results.begin(), results.end());
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                orgStart = true;
             }
 
-            //now add in rest of peepqueries, or if negative add it to the subtract vector
+            //now add in rest of peepqueries
             if (!peepqueries.empty()) {
                 if (peepqueries[0] != "negative") {
                     for (size_t i = (!peepStart ? 0 : 1); i < peepqueries.size(); i++) {
-                        instancesPerWord = peeps.find(peepqueries[i]).getInstances();
-                        for (auto &j: instancesPerWord) {
-                            auto it = hcount.find(j);
-                            if (it != hcount.end()) {
-                                it->second++;
-                            }
-                            if (hash[j].find(peepqueries[i]) != string::npos) {
+                        try {
+                            instancesPerWord = peeps.find(peepqueries[i]).getInstances();
+                            for (auto &j: instancesPerWord) {
                                 auto it = hcount.find(j);
                                 if (it != hcount.end()) {
                                     it->second++;
                                 }
+                                if (hash[j].find(peepqueries[i]) != string::npos) {
+                                    auto it = hcount.find(j);
+                                    if (it != hcount.end()) {
+                                        it->second++;
+                                    }
+                                }
                             }
-                        }
 
-                        sort(instancesPerWord.begin(), instancesPerWord.end());
-                        set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
-                                         instancesPerWord.end(),
-                                         back_inserter(it));
-                        results = it;
+                            sort(instancesPerWord.begin(), instancesPerWord.end());
+                            set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
+                                             instancesPerWord.end(),
+                                             back_inserter(it));
+                            results = it;
+                        }
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
                     }
 
                 }
             }
-
+            //add in rest of orgqueries
             if (!orgqueries.empty()) {
                 if (orgqueries[0] != "negative") {
                     for (size_t i = (!orgStart ? 0 : 1); i < orgqueries.size(); i++) {
-                        instancesPerWord = orgs.find(orgqueries[i]).getInstances();
-                        for (auto &j: instancesPerWord) {
-                            auto it = hcount.find(j);
-                            if (it != hcount.end()) {
-                                it->second++;
-                            }
-                            if (hash[j].find(orgqueries[i]) != string::npos) {
+                        try {
+                            instancesPerWord = orgs.find(orgqueries[i]).getInstances();
+                            for (auto &j: instancesPerWord) {
                                 auto it = hcount.find(j);
                                 if (it != hcount.end()) {
                                     it->second++;
                                 }
+                                if (hash[j].find(orgqueries[i]) != string::npos) {
+                                    auto it = hcount.find(j);
+                                    if (it != hcount.end()) {
+                                        it->second++;
+                                    }
+                                }
                             }
-                        }
 
-                        sort(instancesPerWord.begin(), instancesPerWord.end());
-                        set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
-                                         instancesPerWord.end(),
-                                         back_inserter(it));
-                        results = it;
+                            sort(instancesPerWord.begin(), instancesPerWord.end());
+                            set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
+                                             instancesPerWord.end(),
+                                             back_inserter(it));
+                            results = it;
+                        }
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
                     }
                 }
             }
 
+            //normal stopwords
+            if(!skipwords.empty()){
+                //gets starting word
+                try { instancesPerWord = info.find(skipwords[0]).getInstances(); }
+                catch (std::runtime_error) {}
 
+                for (auto &j: instancesPerWord) {
+                    subtract.push_back(j);
+                }
+                for (size_t i = 1; i < skipwords.size(); i++) {
+                    try{instancesPerWord = info.find(skipwords[i]).getInstances();}
+                    catch (std::runtime_error) {}
+                    sort(instancesPerWord.begin(), instancesPerWord.end());
+                    set_intersection(subtract.begin(), subtract.end(), instancesPerWord.begin(), instancesPerWord.end(),
+                                     back_inserter(it));
+                    subtract = it;
+                }
+            }
+            //start with PERSON
+            else if(!peepqueries.empty()){
+                if(peepqueries[0] == "negative"){
+                    try {
+                        instancesPerWord = peeps.find(peepqueries[0]).getInstances();
+                        for (auto &j: instancesPerWord) {
+                            subtract.push_back(j);
+                        }
+                    }
+                    catch (std::runtime_error) {}
+                    sort(subtract.begin(), subtract.end());
+                    negPeepStart = true;
+                }
+            }
+            //start with ORG
+            else if(!orgqueries.empty()){
+                if(orgqueries[0] == "negative"){
+                    try {
+                        instancesPerWord = orgs.find(orgqueries[0]).getInstances();
+                        for (auto &j: instancesPerWord) {
+                            subtract.push_back(j);
+                        }
+                    }
+                    catch (std::runtime_error) {}
+                    sort(subtract.begin(), subtract.end());
+                    negOrgStart = true;
+                }
+            }
+            //now add in rest of the negative peepqueries
+            if (!peepqueries.empty()) {
+                if (peepqueries[0] == "negative") {
+                    for (size_t i = (!negPeepStart ? 0 : 1); i < peepqueries.size(); i++) {
+                        try {
+                            instancesPerWord = peeps.find(peepqueries[i]).getInstances();
+                            sort(instancesPerWord.begin(), instancesPerWord.end());
+                            set_intersection(subtract.begin(), subtract.end(), instancesPerWord.begin(),
+                                             instancesPerWord.end(),
+                                             back_inserter(it));
+                            subtract = it;
+                        }
+                        catch (std::runtime_error) {}
+                    }
 
+                }
+            }
+            //now add in rest of the negative orgqueries
+            if (!orgqueries.empty()) {
+                if (orgqueries[0] == "negative") {
+                    for (size_t i = (!negOrgStart ? 0 : 1); i < orgqueries.size(); i++) {
+                        try {
+                            instancesPerWord = orgs.find(orgqueries[i]).getInstances();
+                            sort(instancesPerWord.begin(), instancesPerWord.end());
+                            set_intersection(subtract.begin(), subtract.end(), instancesPerWord.begin(),
+                                             instancesPerWord.end(),
+                                             back_inserter(it));
+                            subtract = it;
+                        }
+                        catch (std::runtime_error) {}
+                    }
 
+                }
+            }
+
+            sort(results.begin(), results.end());
+            results.erase(unique(results.begin(),results.end()), results.end());
+            for(size_t i = 0; i<subtract.size(); i++){
+                remove(results.begin(),results.end(),subtract[i]);
+            }
             /*
             //IF PERSON IS SEARCHED
             if(!peepqueries.empty()){
