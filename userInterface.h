@@ -41,18 +41,18 @@ public:
                 continue;
             }else if(input == 'W'){
                 //FIX FROM BEING ONLY STORING ORGS
-                handler.storeTree(handler.getWords(), "wordTree");
-                handler.storeTree(handler.getPeeps(), "peopleTree");
-                handler.storeTree(handler.getOrgs(), "orgTree");
+                handler.storeTree(handler.getWords(), "wordTree.txt");
+                handler.storeTree(handler.getPeeps(), "peopleTree.txt");
+                handler.storeTree(handler.getOrgs(), "orgTree.txt");
                 handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap", "countMap");
-
-                cout << "Index successfully stored in " << name << endl;
                 continue;
             }else if(input == 'Q'){
                 handler.search();
                 continue;
             }else if(input == 'R'){
-                handler.reloadTree("sample_data/reloadTest.txt");
+                handler.wordreloadTree("wordTree.txt");
+                handler.peepreloadTree("peopleTree.txt");
+                handler.orgreloadTree("orgTree.txt");
                 continue;
             }else if(input == 'C'){
                 handler.clear();

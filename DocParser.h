@@ -48,6 +48,7 @@ public:
         for (auto &p : persons)
         {
             string tempP = p["name"].GetString();
+            lowerCase(tempP);
             Porter2Stemmer::stem(tempP);
             doc.addPeople(tempP);
         }
@@ -57,6 +58,7 @@ public:
         for (auto &p : organizations)
         {
             string tempO = p["name"].GetString();
+            orglowerCase(tempO);
             Porter2Stemmer::stem(tempO);
             doc.addOrgs(tempO);
         }
@@ -67,8 +69,8 @@ public:
         string temp;
 
         while(ss>>temp){
-            Porter2Stemmer::stem(temp);
             temp = lowerCase(temp);
+            Porter2Stemmer::stem(temp);
             /*string delimit = " !@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<temp.size(); ++i){
                 for(size_t j=0; j<delimit.size();++j){

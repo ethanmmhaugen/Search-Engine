@@ -125,7 +125,7 @@ public:
         tree.saveToFile(filename);
     }
 
-    void storeMaps(unordered_map<string,string> shash, unordered_map<string, size_t> shcount,vector<string> suuids, string& name, string& name2){
+    void storeMaps(unordered_map<string,string> shash, unordered_map<string, size_t> shcount,vector<string> suuids, string name, string name2){
         ofstream file;
         ofstream file2;
         file.open(name);
@@ -154,7 +154,47 @@ public:
         file2.close();
     }
 
-    void reloadTree(const string& filename){
+    void orgreloadTree(const string& filename){
+        orgs.makeEmpty();
+        ifstream file(filename);
+        if(!file.is_open()){
+            cout << "Error, file not found" << endl;
+        }
+        string buff;
+        while(!file.eof()){
+            getline(file, buff);
+            stringstream s(buff);
+            getline(s, buff, ' ');
+            key insert = key(buff);
+            while(!s.eof()){
+                getline(s, buff, ' ');
+                insert.addInst(buff);
+            }
+            orgs.balancedInsert(insert);
+        }
+
+    }
+    void peepreloadTree(const string& filename){
+        peeps.makeEmpty();
+        ifstream file(filename);
+        if(!file.is_open()){
+            cout << "Error, file not found" << endl;
+        }
+        string buff;
+        while(!file.eof()){
+            getline(file, buff);
+            stringstream s(buff);
+            getline(s, buff, ' ');
+            key insert = key(buff);
+            while(!s.eof()){
+                getline(s, buff, ' ');
+                insert.addInst(buff);
+            }
+            peeps.balancedInsert(insert);
+        }
+
+    }
+    void wordreloadTree(const string& filename){
         info.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
@@ -201,7 +241,7 @@ public:
             instancesPerWord = info.find(wq).getInstances();
             for (auto &j: instancesPerWord)hcount[j] = +1;
             sort(instancesPerWord.begin(), instancesPerWord.end());
-            it.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),it.begin());
+            set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(), back_inserter(it));
             results = it;
         }
         //extra weight if word exists in title
@@ -308,7 +348,7 @@ public:
          */
 
 
-        results = UuidtoTitles(it);
+        results = UuidtoTitles(results);
 
         google.storeAnswers(results);
         google.resultsMenu();

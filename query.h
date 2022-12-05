@@ -64,8 +64,9 @@ public:
             }
 
             //ADD STEMMING
-            Porter2Stemmer::stem(buff);
             buff = lowerCase(buff);
+            Porter2Stemmer::stem(buff);
+
             /*string delimit = "!@#$%^&*()+=/.,'\r''\n'";
             for(size_t i =0; i<buff.size(); ++i){
                 for(size_t j=0; i<delimit.size();++i){
@@ -133,13 +134,18 @@ public:
 
     void printAnswers(){
         cout << "We found these files for you: " << endl;
-        for(size_t i = pageNum*15; i<max(i+15,answers.size()); i++){
+        for(size_t i = pageNum*15; i<min(i+15,answers.size()); i++){
             cout << answers[i] << endl;
         }
     }
 
     void nextPage(){
-        pageNum+=1;
+        if(pageNum*15 > answers.size()) {
+            pageNum += 1;
+        }
+        else{
+            cout << "Sorry, out of results" << endl;
+        }
     }
 
     bool prevPage(){
@@ -152,7 +158,7 @@ public:
     }
 
 
-    
+
 
     string lowerCase(string data){
         string tmp;
@@ -194,6 +200,8 @@ public:
         char input;
         while(true){
             printAnswers();
+            cout << "|Page " << pageNum+1 << "                                     |" << endl;
+            cout << "|                                           |" << endl;
             cout << "|N - next page of results                   |" << endl;
             cout << "|P - previous page of results               |" << endl;
             cout << "|E - exit the query and go back to main menu|" << endl;
