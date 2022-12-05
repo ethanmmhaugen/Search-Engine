@@ -263,7 +263,10 @@ public:
         // every following uuid needs to be in this first one
         instancesPerWord = info.find(wordqueries[0]).getInstances();
         for(auto & j : instancesPerWord){
-            hcount[j] +=1;
+            auto it = hcount.find(j);
+            if(it != hcount.end()){
+                it -> second++;
+            }
             results.push_back(j);
         }
         sort(results.begin(), results.end());
@@ -279,7 +282,10 @@ public:
             instancesPerWord = info.find(wq).getInstances();
             for(auto & j : instancesPerWord){
                 if(hash[j].find(wq) != string::npos){
-                    hcount[j] += 10;
+                    auto it = hcount.find(j);
+                    if(it != hcount.end()){
+                        it -> second+=10;
+                    }
                 }
             }
         }
@@ -290,7 +296,10 @@ public:
                 instancesPerWord = info.find(pq).getInstances();
                 for (auto &j: instancesPerWord){
                     if(std::find(results.begin(), results.end(), j)!=results.end()){
-                        hcount[j] = +1;
+                        auto it = hcount.find(j);
+                        if(it != hcount.end()){
+                            it -> second++;
+                        }
                         req.push_back(j);
                     }
                 }
@@ -301,7 +310,10 @@ public:
                 instancesPerWord = info.find(pq).getInstances();
                 for(auto & j : instancesPerWord){
                     if(hash[j].find(pq) != string::npos){
-                        hcount[j] += 10;
+                        auto it = hcount.find(j);
+                        if(it != hcount.end()){
+                            it -> second+=10;
+                        }
                     }
                 }
             }
@@ -314,11 +326,17 @@ public:
                     if(std::find(results.begin(), results.end(), j)!=results.end()){
                        if(!peepqueries.empty()){
                            if(std::find(req.begin(), req.end(), j)!=req.end()){
-                               hcount[j] = +1;
+                               auto it = hcount.find(j);
+                               if(it != hcount.end()){
+                                   it -> second++;
+                               }
                                final.push_back(j);
                            }
                        }else{
-                           hcount[j] = +1;
+                           auto it = hcount.find(j);
+                           if(it != hcount.end()){
+                               it -> second++;
+                           }
                            final.push_back(j);
                        }
                     }
@@ -330,39 +348,14 @@ public:
                 instancesPerWord = info.find(oq).getInstances();
                 for(auto & j : instancesPerWord){
                     if(hash[j].find(oq) != string::npos){
-                        hcount[j] += 10;
+                        auto it = hcount.find(j);
+                        if(it != hcount.end()){
+                            it -> second+=10;
+                        }
                     }
                 }
             }
         }
-
-        //search through peeps index
-        /*else if(search[0] == "person"){
-            for(unsigned i = 1; i<search.size(); i++){
-                wordResults = peeps.find(search[i]).getInstances();
-                for(auto & wordResult : wordResults){
-                    results.push_back(wordResult);
-                }
-            }
-        }
-        //search through normal index
-        else {
-            for(auto & i : search){
-                wordResults = info.find(i).getInstances();
-                for(auto & wordResult : wordResults){
-                    results.push_back(wordResult);
-                }
-            }
-        }
-        //remove duplicates(?)
-        if(andor == 1){
-            //code to remove unique values??
-        }
-        else{
-            //code to remove duplicates
-
-        }
-         */
 
         //duplicate remover but not sure if it works
         /*
