@@ -4,6 +4,7 @@
 
 #ifndef FINALPROJEXAMPLES_MYDOCUMENT_H
 #define FINALPROJEXAMPLES_MYDOCUMENT_H
+#include <utility>
 #include <vector>
 #include <string>
 
@@ -17,15 +18,10 @@ private:
     vector<string> orgs;
     vector<string> words;
 public:
-    myDocument(){
-
-    }
-    myDocument(string x){
-        name = x;
-    }
+    myDocument()= default;
 
     void setName(string x){
-        name = x;
+        name = move(x);
     }
 
     string getName(){
@@ -33,36 +29,36 @@ public:
     }
 
     void setUUID(string x){
-        uuid = x;
+        uuid = move(x);
     }
 
     string getUUID(){
         return uuid;
     }
 
-    void addPeople(string names){
-        people.push_back(names);
+    void addPeople(string& x){
+        people.push_back(x);
     }
 
 
-    void addOrgs(string name){
-        orgs.push_back(name);
+    void addOrgs(string& x){
+        orgs.push_back(x);
     }
 
-    void setPeople(const vector<string> &people) {
-        myDocument::people = people;
+    void setPeople(const vector<string> &x) {
+        myDocument::people = x;
     }
 
-    void setOrgs(const vector<string> &orgs) {
-        myDocument::orgs = orgs;
+    void setOrgs(const vector<string> &x) {
+        myDocument::orgs = x;
     }
 
-    void setWords(const vector<string> &words) {
-        myDocument::words = words;
+    void setWords(const vector<string> &x) {
+        myDocument::words = x;
     }
 
-    void addWords(string name){
-        words.push_back(name);
+    void addWords(string& names){
+        words.push_back(names);
     }
 
     vector<string> getPeople(){
@@ -78,20 +74,20 @@ public:
     }
 
     void printWords(){
-        for(size_t i = 0; i<words.size(); i++){
-            cout << words[i] << ", ";
+        for(auto & word : words){
+            cout << word << ", ";
         }
         cout << endl;
     }
     void printOrgs(){
-        for(size_t i = 0; i<orgs.size(); i++){
-            cout << orgs[i] << ", ";
+        for(auto & org : orgs){
+            cout << org << ", ";
         }
         cout << endl;
     }
     void printPeople(){
-        for(size_t i = 0; i<people.size(); i++){
-            cout << people[i] << ", ";
+        for(auto & person : people){
+            cout << person << ", ";
         }
         cout << endl;
     }

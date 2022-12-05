@@ -29,6 +29,8 @@ private:
 public:
     query(){
         pageNum = 0;
+        state = 0;
+        negState = 0;
     };
 
     void getQuery(){
@@ -122,9 +124,9 @@ public:
         answers.clear();
     }
 
-    void storeAnswers(vector<string> input){
+    void storeAnswers(vector<string>& input){
         clearAnswers();
-        for(auto i:input){
+        for(const auto& i:input){
             answers.push_back(i);
         }
     }
@@ -149,8 +151,9 @@ public:
         return true;
     }
 
-    string lowerCase(string data){
-        for (char &i: data)i = tolower(i);
+    static string lowerCase(string data){
+        transform(data.begin(), data.end(), data.begin(),
+                  [](unsigned char c){ return tolower(c); });
         return data;
     }
 

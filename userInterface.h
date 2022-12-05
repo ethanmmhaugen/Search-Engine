@@ -14,13 +14,10 @@ using namespace std;
 class supersearch{
 private:
 public:
-    void superSearch(){
+    static void superSearch(){
         char input;
         string name;
         indexHandler handler;
-
-
-
 
         while(true){
             cout << "|----WELCOME TO SUPERSEARCH: BULLETPROOF----|" << endl << "|                                           |" << endl << "|                                           |" << endl << "|                                           |" << endl << "|                                           |"<< endl;
@@ -44,7 +41,11 @@ public:
                 continue;
             }else if(input == 'W'){
                 //FIX FROM BEING ONLY STORING ORGS
-                handler.storeTree(handler.getOrgs(), name);
+                handler.storeTree(handler.getWords(), "wordTree");
+                handler.storeTree(handler.getPeeps(), "peopleTree");
+                handler.storeTree(handler.getOrgs(), "orgTree");
+                handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap", "countMap");
+
                 cout << "Index successfully stored in " << name << endl;
                 continue;
             }else if(input == 'Q'){
@@ -52,6 +53,9 @@ public:
                 continue;
             }else if(input == 'R'){
                 handler.reloadTree("sample_data/reloadTest.txt");
+                continue;
+            }else if(input == 'C'){
+                handler.clear();
                 continue;
             }else if(input == 'E'){
                 break;
@@ -63,9 +67,5 @@ public:
             }
         }
         cout << "Thank you for using SUPERSEARCH!" << endl;
-
     }
-
-
-
 };

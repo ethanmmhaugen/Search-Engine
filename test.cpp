@@ -52,6 +52,5 @@ TEST_CASE("Check that AVL tree works"){
         index.printInfo();
         index.printPeeps();
         index.checkKey("reuters");
-        index.printAll();
     }
 }

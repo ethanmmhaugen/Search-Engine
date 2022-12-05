@@ -24,7 +24,7 @@ private:
     DocParser parser;
     query google;
     unordered_map<string,string> hash;
-    unordered_map<string, int> hcount;
+    unordered_map<string, size_t> hcount;
     vector<string> uuids;
     vector<string> stop{"a", "an", "for", "and", "nor", "but", "or", "yet", "both", "not", "the", "my", "me", "you", "your", "yours", "his", "her", "they", "them", "he", "him", "she", "in", "on", "by"};
 
@@ -38,7 +38,7 @@ public:
         parser = rhs.parser;
     };
 
-    indexHandler operator=(const indexHandler&rhs){
+    indexHandler& operator=(const indexHandler&rhs){
         info = rhs.info;
         peeps = rhs.peeps;
         orgs = rhs.orgs;
@@ -56,6 +56,7 @@ public:
         orgs.makeEmpty();
     }
 
+    /*
     void insertWord(key word){
         info.insert(word);
     }
@@ -64,9 +65,12 @@ public:
         peeps.insert(person);
     }
 
-    void insertOrg(key org){
+
+
+    void insertOrg(key &org){
         orgs.insert(org);
     }
+*/
 
     //function for adding instances of a word to index or adding to word index
     void scanDocWords(myDocument doc){
@@ -102,7 +106,7 @@ public:
         }
     }
 
-    void populate(string path){
+    void populate(string& path){
         for(const auto& entry: filesystem::recursive_directory_iterator(path)){
             if(entry.is_regular_file() && entry.path().extension().string() == ".json"){
                 myDocument doc = parser.readJsonFile(entry.path().string());
@@ -121,20 +125,33 @@ public:
         tree.saveToFile(filename);
     }
 
-    void storeMap(unordered_map<string,string> hash, vector<string> uuids, string name){
+    void storeMaps(unordered_map<string,string> shash, unordered_map<string, size_t> shcount,vector<string> suuids, string& name, string& name2){
         ofstream file;
+        ofstream file2;
         file.open(name);
+        file2.open(name2);
 
-        if(hash.empty()){
+        //SAVING FIRST MAP
+        if(shash.empty()){
             file.close();
             return;
         }
 
-        for(size_t i = 0; i<hash.size();++i){
-            file << hash[uuids.at(i)] << endl;
+        for(size_t i = 0; i<shash.size();++i){
+            file << shash[suuids.at(i)] << endl;
+        }
+        //SAVING SECOND MAP
+        if(shcount.empty()){
+            file2.close();
+            return;
+        }
+
+        for(size_t i = 0; i<shcount.size();++i){
+            file2 << shcount[suuids.at(i)] << endl;
         }
 
         file.close();
+        file2.close();
     }
 
     void reloadTree(const string& filename){
@@ -168,6 +185,8 @@ public:
         vector<string> results;
         vector<string> instancesPerWord;
         vector<string> it;
+        vector<string> req;
+        vector<string> final;
         int n = sizeof(results,sizeof(results[0]));
         //start with first word, since its logical AND
         // every following uuid needs to be in this first one
@@ -177,8 +196,8 @@ public:
             results.push_back(j);
         }
         sort(results.begin(), results.end());
-        for(size_t i = 1; i<wordqueries.size();++i){
-            instancesPerWord = info.find(wordqueries[i]).getInstances();
+        for(auto & wq: wordqueries){
+            instancesPerWord = info.find(wq).getInstances();
             for (auto &j: instancesPerWord)hcount[j] = +1;
             sort(instancesPerWord.begin(), instancesPerWord.end());
             it.end() = set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(),it.begin());
@@ -190,6 +209,58 @@ public:
             for(auto & j : instancesPerWord){
                 if(hash[j].find(wq) != string::npos){
                     hcount[j] += 10;
+                }
+            }
+        }
+
+        //IF PERSON IS SEARCHED
+        if(!peepqueries.empty()){
+            for(auto & pq : peepqueries){
+                instancesPerWord = info.find(pq).getInstances();
+                for (auto &j: instancesPerWord){
+                    if(std::find(results.begin(), results.end(), j)!=results.end()){
+                        hcount[j] = +1;
+                        req.push_back(j);
+                    }
+                }
+            }
+
+            //extra weight if person exists in title
+            for(auto & pq : peepqueries){
+                instancesPerWord = info.find(pq).getInstances();
+                for(auto & j : instancesPerWord){
+                    if(hash[j].find(pq) != string::npos){
+                        hcount[j] += 10;
+                    }
+                }
+            }
+        }
+
+        if(!orgqueries.empty()){
+            for(auto & oq : orgqueries){
+                instancesPerWord = info.find(oq).getInstances();
+                for (auto &j: instancesPerWord){
+                    if(std::find(results.begin(), results.end(), j)!=results.end()){
+                       if(!peepqueries.empty()){
+                           if(std::find(req.begin(), req.end(), j)!=req.end()){
+                               hcount[j] = +1;
+                               final.push_back(j);
+                           }
+                       }else{
+                           hcount[j] = +1;
+                           final.push_back(j);
+                       }
+                    }
+                }
+            }
+
+            //extra weight if org exists in title
+            for(auto & oq : orgqueries){
+                instancesPerWord = info.find(oq).getInstances();
+                for(auto & j : instancesPerWord){
+                    if(hash[j].find(oq) != string::npos){
+                        hcount[j] += 10;
+                    }
                 }
             }
         }
@@ -242,10 +313,11 @@ public:
         google.resultsMenu();
     }
 
-    vector<string> UuidtoTitles(vector<string> uuids){
+    vector<string> UuidtoTitles(vector<string> uuidst){
         vector<string> answers;
-        for(size_t i = 0; i<uuids.size();++i){
-            answers.push_back(hash[uuids.at(i)]);
+        answers.reserve(uuidst.size());
+        for(auto & uuid : uuidst){
+            answers.push_back(hash[uuid]);
         }
         return answers;
     }
@@ -277,6 +349,18 @@ public:
 
     AvlTree<key> getWords(){
         return this->info;
+    }
+
+    vector<string> getUUIDs(){
+        return this->uuids;
+    }
+
+    unordered_map<string, string> getHashMap(){
+        return this->hash;
+    }
+
+    unordered_map<string, size_t> getCountMap(){
+        return this->hcount;
     }
 };
 
