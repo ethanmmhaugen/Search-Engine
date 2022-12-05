@@ -224,6 +224,7 @@ public:
             cout << "Error, one or more of your map files not found" << endl;
         }
         string buff;
+        size_t buf;
         string tmpU;
         while(!file.eof()){
             getline(file, buff);
@@ -236,8 +237,9 @@ public:
             getline(file2, buff);
             stringstream s(buff);
             getline(s, tmpU, ' ');
-            getline(s, buff);
-            hcount[tmpU] = buff;
+            s >> buf;
+            s << endl;
+            hcount[tmpU] = buf;
         }
         file.close();
         file2.close();
