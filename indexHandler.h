@@ -138,7 +138,7 @@ public:
         }
 
         for(size_t i = 0; i<shash.size();++i){
-            file << shash[suuids.at(i)] << endl;
+            file << suuids.at(i) << " " << shash[suuids.at(i)] << endl;
         }
         //SAVING SECOND MAP
         if(shcount.empty()){
@@ -147,7 +147,7 @@ public:
         }
 
         for(size_t i = 0; i<shcount.size();++i){
-            file2 << shcount[suuids.at(i)] << endl;
+            file2 << suuids.at(i) << " " << shcount[suuids.at(i)] << endl;
         }
 
         file.close();
@@ -158,7 +158,7 @@ public:
         orgs.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
-            cout << "Error, file not found" << endl;
+            cout << "Error, org tree file not found" << endl;
         }
         string buff;
         while(!file.eof()){
@@ -172,13 +172,13 @@ public:
             }
             orgs.balancedInsert(insert);
         }
-
+        file.close();
     }
     void peepreloadTree(const string& filename){
         peeps.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
-            cout << "Error, file not found" << endl;
+            cout << "Error, people tree file not found" << endl;
         }
         string buff;
         while(!file.eof()){
@@ -192,13 +192,13 @@ public:
             }
             peeps.balancedInsert(insert);
         }
-
+        file.close();
     }
     void wordreloadTree(const string& filename){
         info.makeEmpty();
         ifstream file(filename);
         if(!file.is_open()){
-            cout << "Error, file not found" << endl;
+            cout << "Error, word tree file not found" << endl;
         }
         string buff;
         while(!file.eof()){
@@ -212,7 +212,34 @@ public:
             }
             info.balancedInsert(insert);
         }
+        file.close();
+    }
 
+    void reloadMaps(const string& filename, const string& filename2){
+        hash.clear();
+        ifstream file(filename);
+        ifstream file2(filename2);
+        if(!file.is_open()||!file2.is_open()){
+            cout << "Error, one or more of your map files not found" << endl;
+        }
+        string buff;
+        string tmpU;
+        while(!file.eof()){
+            getline(file, buff);
+            stringstream s(buff);
+            getline(s, tmpU, ' ');
+            getline(s, buff);
+            hash[tmpU] = buff;
+        }
+        while(!file2.eof()){
+            getline(file2, buff);
+            stringstream s(buff);
+            getline(s, tmpU, ' ');
+            getline(s, buff);
+            hash[tmpU] = buff;
+        }
+        file.close();
+        file2.close();
     }
 
     void search(){
