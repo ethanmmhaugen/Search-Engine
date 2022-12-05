@@ -172,7 +172,7 @@ public:
                 tmp += i;
             }
             else if (i>64 && i<91){
-                tmp += i+34;
+                tmp += (i+32);
             }
         }
         return tmp;
@@ -191,7 +191,7 @@ public:
                 tmp += i;
             }
             else if (i>64 && i<91){
-                tmp += i+34;
+                tmp += (i+32);
             }
         }
         return tmp;
@@ -199,6 +199,7 @@ public:
     }
 
     void resultsMenu(){
+        pageNum = 0;
         char input;
         while(true){
             printAnswers();

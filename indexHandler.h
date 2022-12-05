@@ -223,6 +223,7 @@ public:
         if(!file.is_open()||!file2.is_open()){
             cout << "Error, one or more of your map files not found" << endl;
         }
+        vector<string> tempUs;
         string buff;
         size_t buf;
         string tmpU;
@@ -230,6 +231,7 @@ public:
             getline(file, buff);
             stringstream s(buff);
             getline(s, tmpU, ' ');
+            tempUs.push_back(tmpU);
             getline(s, buff);
             hash[tmpU] = buff;
         }
@@ -241,6 +243,7 @@ public:
             s << endl;
             hcount[tmpU] = buf;
         }
+        uuids = tempUs;
         file.close();
         file2.close();
     }
@@ -254,127 +257,236 @@ public:
         vector<string> skipwords = google.getSkipAnswers();
 
         vector<string> results;
+        vector<string> subtract;
         vector<string> instancesPerWord;
         vector<string> it;
         vector<string> req;
         vector<string> final;
-        int n = sizeof(results,sizeof(results[0]));
-        //start with first word, since its logical AND
-        // every following uuid needs to be in this first one
-        instancesPerWord = info.find(wordqueries[0]).getInstances();
-        for(auto & j : instancesPerWord){
-            auto it = hcount.find(j);
-            if(it != hcount.end()){
-                it -> second++;
+        bool peepStart = false;
+        bool orgStart = false;
+
+        //for loop lets us skip if we hit a catch
+        for(int i = 0; i<1; i++) {
+            //If wordqueries has something, takes all of them and adds to results
+            if (!wordqueries.empty()) {
+                //gets starting word
+                try { instancesPerWord = info.find(wordqueries[0]).getInstances(); }
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+
+                for (auto &j: instancesPerWord) {
+
+                    try{auto it = hcount.find(j);
+                        if (it != hcount.end()) {
+                            it->second++;
+                        }
+                    }
+                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+
+                    results.push_back(j);
+                }
+                sort(results.begin(), results.end());
+                //
+                for (size_t i = 1; i < wordqueries.size(); i++) {
+                    try{instancesPerWord = info.find(wordqueries[i]).getInstances();}
+                    catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                    for (auto &j: instancesPerWord) {
+                        try {
+                            auto it = hcount.find(j);
+                            if (it != hcount.end()) {
+                                it->second++;
+                            }
+
+                            if (hash[j].find(wordqueries[i]) != string::npos) {
+                                auto it = hcount.find(j);
+                                if (it != hcount.end()) {
+                                    it->second++;
+                                }
+                            }
+                        }
+                        catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                    }
+
+                    sort(instancesPerWord.begin(), instancesPerWord.end());
+                    set_intersection(results.begin(), results.end(), instancesPerWord.begin(), instancesPerWord.end(),
+                                     back_inserter(it));
+                    results = it;
+                }
             }
-            results.push_back(j);
-        }
-        sort(results.begin(), results.end());
-        for(auto & wq: wordqueries){
-            instancesPerWord = info.find(wq).getInstances();
-            for (auto &j: instancesPerWord)hcount[j] = +1;
-            sort(instancesPerWord.begin(), instancesPerWord.end());
-            set_intersection(results.begin(),results.end(),instancesPerWord.begin(),instancesPerWord.end(), back_inserter(it));
-            results = it;
-        }
-        //extra weight if word exists in title
-        for(auto & wq : wordqueries){
-            instancesPerWord = info.find(wq).getInstances();
-            for(auto & j : instancesPerWord){
-                if(hash[j].find(wq) != string::npos){
+                //if wordqueries empty, we start with the first word of peepqueries assuming its positive
+            else if (!peepqueries.empty() && peepqueries[0] != "negative") {
+                try {
+                    instancesPerWord = peeps.find(wordqueries[0]).getInstances();
+                    for (auto &j: instancesPerWord) {
+                        auto it = hcount.find(j);
+                        if (it != hcount.end()) {
+                            it->second++;
+                        }
+                        results.push_back(j);
+                    }
+                }
+                catch (std::runtime_error) { cout << "Not found, sorry" << endl; break;}
+                sort(results.begin(), results.end());
+                peepStart = true;
+
+
+            }
+                //Or just go to Orgs to get our starting results vector
+            else {
+                instancesPerWord = orgs.find(orgqueries[0]).getInstances();
+                for (auto &j: instancesPerWord) {
                     auto it = hcount.find(j);
-                    if(it != hcount.end()){
-                        it -> second+=10;
+                    if (it != hcount.end()) {
+                        it->second++;
                     }
+                    results.push_back(j);
                 }
+                sort(results.begin(), results.end());
             }
-        }
 
-        //IF PERSON IS SEARCHED
-        if(!peepqueries.empty()){
-            for(auto & pq : peepqueries){
-                instancesPerWord = info.find(pq).getInstances();
-                for (auto &j: instancesPerWord){
-                    if(std::find(results.begin(), results.end(), j)!=results.end()){
-                        auto it = hcount.find(j);
-                        if(it != hcount.end()){
-                            it -> second++;
+            //now add in rest of peepqueries, or if negative add it to the subtract vector
+            if (!peepqueries.empty()) {
+                if (peepqueries[0] != "negative") {
+                    for (size_t i = (!peepStart ? 0 : 1); i < peepqueries.size(); i++) {
+                        instancesPerWord = peeps.find(peepqueries[i]).getInstances();
+                        for (auto &j: instancesPerWord) {
+                            auto it = hcount.find(j);
+                            if (it != hcount.end()) {
+                                it->second++;
+                            }
+                            if (hash[j].find(peepqueries[i]) != string::npos) {
+                                auto it = hcount.find(j);
+                                if (it != hcount.end()) {
+                                    it->second++;
+                                }
+                            }
                         }
-                        req.push_back(j);
+
+                        sort(instancesPerWord.begin(), instancesPerWord.end());
+                        set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
+                                         instancesPerWord.end(),
+                                         back_inserter(it));
+                        results = it;
+                    }
+
+                }
+            }
+
+            if (!orgqueries.empty()) {
+                if (orgqueries[0] != "negative") {
+                    for (size_t i = (!orgStart ? 0 : 1); i < orgqueries.size(); i++) {
+                        instancesPerWord = orgs.find(orgqueries[i]).getInstances();
+                        for (auto &j: instancesPerWord) {
+                            auto it = hcount.find(j);
+                            if (it != hcount.end()) {
+                                it->second++;
+                            }
+                            if (hash[j].find(orgqueries[i]) != string::npos) {
+                                auto it = hcount.find(j);
+                                if (it != hcount.end()) {
+                                    it->second++;
+                                }
+                            }
+                        }
+
+                        sort(instancesPerWord.begin(), instancesPerWord.end());
+                        set_intersection(results.begin(), results.end(), instancesPerWord.begin(),
+                                         instancesPerWord.end(),
+                                         back_inserter(it));
+                        results = it;
                     }
                 }
             }
 
-            //extra weight if person exists in title
-            for(auto & pq : peepqueries){
-                instancesPerWord = info.find(pq).getInstances();
-                for(auto & j : instancesPerWord){
-                    if(hash[j].find(pq) != string::npos){
-                        auto it = hcount.find(j);
-                        if(it != hcount.end()){
-                            it -> second+=10;
+
+
+
+            /*
+            //IF PERSON IS SEARCHED
+            if(!peepqueries.empty()){
+                for(auto & pq : peepqueries){
+                    instancesPerWord = info.find(pq).getInstances();
+                    for (auto &j: instancesPerWord){
+                        if(std::find(results.begin(), results.end(), j)!=results.end()){
+                            auto it = hcount.find(j);
+                            if(it != hcount.end()){
+                                it -> second++;
+                            }
+                            req.push_back(j);
+                        }
+                    }
+                }
+
+                //extra weight if person exists in title
+                for(auto & pq : peepqueries){
+                    instancesPerWord = info.find(pq).getInstances();
+                    for(auto & j : instancesPerWord){
+                        if(hash[j].find(pq) != string::npos){
+                            auto it = hcount.find(j);
+                            if(it != hcount.end()){
+                                it -> second+=10;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        if(!orgqueries.empty()){
-            for(auto & oq : orgqueries){
-                instancesPerWord = info.find(oq).getInstances();
-                for (auto &j: instancesPerWord){
-                    if(std::find(results.begin(), results.end(), j)!=results.end()){
-                       if(!peepqueries.empty()){
-                           if(std::find(req.begin(), req.end(), j)!=req.end()){
+            if(!orgqueries.empty()){
+                for(auto & oq : orgqueries){
+                    instancesPerWord = info.find(oq).getInstances();
+                    for (auto &j: instancesPerWord){
+                        if(std::find(results.begin(), results.end(), j)!=results.end()){
+                           if(!peepqueries.empty()){
+                               if(std::find(req.begin(), req.end(), j)!=req.end()){
+                                   auto it = hcount.find(j);
+                                   if(it != hcount.end()){
+                                       it -> second++;
+                                   }
+                                   final.push_back(j);
+                               }
+                           }else{
                                auto it = hcount.find(j);
                                if(it != hcount.end()){
                                    it -> second++;
                                }
                                final.push_back(j);
                            }
-                       }else{
-                           auto it = hcount.find(j);
-                           if(it != hcount.end()){
-                               it -> second++;
-                           }
-                           final.push_back(j);
-                       }
+                        }
                     }
                 }
-            }
 
-            //extra weight if org exists in title
-            for(auto & oq : orgqueries){
-                instancesPerWord = info.find(oq).getInstances();
-                for(auto & j : instancesPerWord){
-                    if(hash[j].find(oq) != string::npos){
-                        auto it = hcount.find(j);
-                        if(it != hcount.end()){
-                            it -> second+=10;
+                //extra weight if org exists in title
+                for(auto & oq : orgqueries){
+                    instancesPerWord = info.find(oq).getInstances();
+                    for(auto & j : instancesPerWord){
+                        if(hash[j].find(oq) != string::npos){
+                            auto it = hcount.find(j);
+                            if(it != hcount.end()){
+                                it -> second+=10;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        //duplicate remover but not sure if it works
-        /*
-        vector<string> duplicateChecker;
-        for(size_t i = 0; i<results.size();++i){
-            duplicateChecker.push_back(results.at(i));
-            if(std::any_of(duplicateChecker.begin(), duplicateChecker.end(), [](string str){ ; }){
-                std::remove(results.at(i).begin(), results.at(i).end(), results.at(i));
-            }else{
-                continue;
+            //duplicate remover but not sure if it works
+
+            vector<string> duplicateChecker;
+            for(size_t i = 0; i<results.size();++i){
+                duplicateChecker.push_back(results.at(i));
+                if(std::any_of(duplicateChecker.begin(), duplicateChecker.end(), [](string str){ ; }){
+                    std::remove(results.at(i).begin(), results.at(i).end(), results.at(i));
+                }else{
+                    continue;
+                }
             }
+             */
+
+
+            results = UuidtoTitles(results);
+
+            google.storeAnswers(results);
+            google.resultsMenu();
         }
-         */
-
-
-        results = UuidtoTitles(results);
-
-        google.storeAnswers(results);
-        google.resultsMenu();
     }
 
     vector<string> UuidtoTitles(vector<string> uuidst){
