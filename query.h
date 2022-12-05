@@ -178,7 +178,7 @@ public:
         return tmp;
     }
 
-    string orglowerCase(string data){
+    string orgLowerCase(string data){
         string tmp;
         for (char &i: data) {
             if(i == 32){

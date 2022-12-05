@@ -58,7 +58,7 @@ public:
         for (auto &p : organizations)
         {
             string tempO = p["name"].GetString();
-            orglowerCase(tempO);
+            orgLowerCase(tempO);
             Porter2Stemmer::stem(tempO);
             doc.addOrgs(tempO);
         }
@@ -102,7 +102,7 @@ public:
         return tmp;
     }
 
-    string orglowerCase(string data){
+    string orgLowerCase(string data){
         string tmp;
         for (char &i: data) {
             if(i == 32){
