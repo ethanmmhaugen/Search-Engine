@@ -106,7 +106,7 @@ menu instructions to save indexes or exit supersearch.
 
 ## Performance
 - Statistics for indexing all documents and timing.
-
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/timing.png)
 
 
 ## Automatic Tests and Memory Tests
