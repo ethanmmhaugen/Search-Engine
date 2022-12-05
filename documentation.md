@@ -2,7 +2,7 @@
 
 ## ** High-level Design of Solution **
 
-![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/uml.png)
 
 ### ** User Interface **
 The user interface class is responsible for printing and managing the menu for the user. Through the superSearch function,
@@ -61,12 +61,14 @@ Weekly milestones/tasks. Set out a plan at the beginning and then record when yo
 ### ** Avl Tree **
 Avl tree is used as the structure to hold all the keys, each of which is a unique word. The tree sorts these
 words and holds a vector of strings that has all the occurences by UUID. 
+: O(log n)
 
 ### ** Queue **
 The queue data structure is used when writing a tree to file, in order to be able to traverse a tree by
 breadth. The queue adds the children nodes for every level, allowing for the tree to be read in order,
 so when the file is read again the tree requires minimal rebalancing. Without a queue, writing the tree
 in order would be significantly more complicated. 
+: O(n)
 
 ### ** Vector **
 Vectors are used throughout the entire program, mainly whenever a list of strings of any kind needs to be
@@ -74,6 +76,7 @@ kept. It is used to hold lists of words such as queries, lists of UUIDs, people,
 so on. It is one of the most used data structures in this program since it has many built in functions.
 Another option which may have been quicker would be to use Linked Lists instead, however, it would be 
 a more complicated inplementation. 
+: O(n^2)
 
 ### ** Unordered Map **
 Unordered maps are used as a hash table to match UUIDs to the article title. Since UUIDs and titles are
@@ -81,27 +84,29 @@ only available when a document is being read in, and the document object is not 
 UUIDs are matched up in a hash table to be able to retrieve article titles when returning results. It
 is also used for relevancy ranking, as the other hash map links UUID to a counter of how many times it 
 is returned per UUID. 
+: O(n)
 
-
-Explanation of what data structures are used where. For each, state 
-    - time and space complexity (Big-Oh),
-    - why it is the appropriate data structure and what other data structure could have been used.
 
 ## User Documentation 
 - How to use the software.
+
 In order to run the program, you must run our main file to call supersearch, which will activate the UI.
 When in UI, you must follow prompts to upload a directory or reload one and then you can query it. Follow
 menu instructions to save indexes or exit supersearch.
 
 - Some example queries with the results.
 
-
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/Reloading%20indices%20and%20finding%20fund.png)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/persistency%20index%20proof.png)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/proof%20of%20relevancy%20ranking%20pt%202.png)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/proof%20of%20relevancy%20ranking.png)
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/supersearch/outputs%20and%20code/proof%20that%20-%20works.png)
 
 
 
 ## Performance
 - Statistics for indexing all documents and timing.
-
+![alt text](https://github.com/SMUCS2341/assignment-4-search-engine-she-s-bulletproof/blob/main/timing.png)
 
 
 ## Automatic Tests and Memory Tests
