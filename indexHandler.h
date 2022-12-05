@@ -217,6 +217,7 @@ public:
 
     void reloadMaps(const string& filename, const string& filename2){
         hash.clear();
+        hcount.clear();
         ifstream file(filename);
         ifstream file2(filename2);
         if(!file.is_open()||!file2.is_open()){
@@ -236,7 +237,7 @@ public:
             stringstream s(buff);
             getline(s, tmpU, ' ');
             getline(s, buff);
-            hash[tmpU] = buff;
+            hcount[tmpU] = buff;
         }
         file.close();
         file2.close();
