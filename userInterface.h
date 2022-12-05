@@ -44,7 +44,7 @@ public:
                 handler.storeTree(handler.getWords(), "wordTree.txt");
                 handler.storeTree(handler.getPeeps(), "peopleTree.txt");
                 handler.storeTree(handler.getOrgs(), "orgTree.txt");
-                handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap", "countMap");
+                handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap.txt", "countMap.txt");
                 continue;
             }else if(input == 'Q'){
                 handler.search();
@@ -53,6 +53,7 @@ public:
                 handler.wordreloadTree("wordTree.txt");
                 handler.peepreloadTree("peopleTree.txt");
                 handler.orgreloadTree("orgTree.txt");
+                handler.reloadMaps("titleMap.txt", "countMap.txt");
                 continue;
             }else if(input == 'C'){
                 handler.clear();

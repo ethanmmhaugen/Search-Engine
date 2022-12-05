@@ -134,27 +134,29 @@ public:
 
     void printAnswers(){
         cout << "We found these files for you: " << endl;
-        for(size_t i = pageNum*15; i<min(i+15,answers.size()); i++){
+        for(size_t i = pageNum*15, j = pageNum*15; i<min(j+15,answers.size()); i++){
             cout << answers[i] << endl;
         }
     }
 
     void nextPage(){
-        if(pageNum*15 > answers.size()) {
+        if((pageNum+1)*15 < answers.size()) {
             pageNum += 1;
         }
         else{
             cout << "Sorry, out of results" << endl;
+            cout << "\n\n\n";
         }
     }
 
-    bool prevPage(){
+    void prevPage(){
         if(pageNum < 1){
             cout << "Can't go back from page 1... nice try shockley" << endl;
-            return false;
+            cout << "\n\n\n";
         }
-        pageNum-=1;
-        return true;
+        else {
+            pageNum -= 1;
+        }
     }
 
 
