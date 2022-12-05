@@ -317,7 +317,7 @@ public:
                 //if wordqueries empty, we start with the first word of peepqueries assuming its positive
             else if (!peepqueries.empty() && peepqueries[0] != "negative") {
                 try {
-                    instancesPerWord = peeps.find(wordqueries[0]).getInstances();
+                    instancesPerWord = peeps.find(peepqueries[0]).getInstances();
                     for (auto &j: instancesPerWord) {
                         auto it = hcount.find(j);
                         if (it != hcount.end()) {
@@ -352,7 +352,7 @@ public:
             //now add in rest of peepqueries
             if (!peepqueries.empty()) {
                 if (peepqueries[0] != "negative") {
-                    for (size_t i = (!peepStart ? 0 : 1); i < peepqueries.size(); i++) {
+                    for (size_t i = (!peepStart ? 1 : 2); i < peepqueries.size(); i++) {
                         try {
                             instancesPerWord = peeps.find(peepqueries[i]).getInstances();
                             for (auto &j: instancesPerWord) {
@@ -382,7 +382,7 @@ public:
             //add in rest of orgqueries
             if (!orgqueries.empty()) {
                 if (orgqueries[0] != "negative") {
-                    for (size_t i = (!orgStart ? 0 : 1); i < orgqueries.size(); i++) {
+                    for (size_t i = (!orgStart ? 1 : 2); i < orgqueries.size(); i++) {
                         try {
                             instancesPerWord = orgs.find(orgqueries[i]).getInstances();
                             for (auto &j: instancesPerWord) {
@@ -431,7 +431,7 @@ public:
             else if(!peepqueries.empty()){
                 if(peepqueries[0] == "negative"){
                     try {
-                        instancesPerWord = peeps.find(peepqueries[0]).getInstances();
+                        instancesPerWord = peeps.find(peepqueries[1]).getInstances();
                         for (auto &j: instancesPerWord) {
                             subtract.push_back(j);
                         }
@@ -445,7 +445,7 @@ public:
             else if(!orgqueries.empty()){
                 if(orgqueries[0] == "negative"){
                     try {
-                        instancesPerWord = orgs.find(orgqueries[0]).getInstances();
+                        instancesPerWord = orgs.find(orgqueries[1]).getInstances();
                         for (auto &j: instancesPerWord) {
                             subtract.push_back(j);
                         }
@@ -458,7 +458,7 @@ public:
             //now add in rest of the negative peepqueries
             if (!peepqueries.empty()) {
                 if (peepqueries[0] == "negative") {
-                    for (size_t i = (!negPeepStart ? 0 : 1); i < peepqueries.size(); i++) {
+                    for (size_t i = (!negPeepStart ? 1 : 2); i < peepqueries.size(); i++) {
                         try {
                             instancesPerWord = peeps.find(peepqueries[i]).getInstances();
                             sort(instancesPerWord.begin(), instancesPerWord.end());
@@ -475,7 +475,7 @@ public:
             //now add in rest of the negative orgqueries
             if (!orgqueries.empty()) {
                 if (orgqueries[0] == "negative") {
-                    for (size_t i = (!negOrgStart ? 0 : 1); i < orgqueries.size(); i++) {
+                    for (size_t i = (!negOrgStart ? 1 : 2); i < orgqueries.size(); i++) {
                         try {
                             instancesPerWord = orgs.find(orgqueries[i]).getInstances();
                             sort(instancesPerWord.begin(), instancesPerWord.end());
@@ -492,8 +492,10 @@ public:
 
             sort(results.begin(), results.end());
             results.erase(unique(results.begin(),results.end()), results.end());
-            for(size_t i = 0; i<subtract.size(); i++){
-                remove(results.begin(),results.end(),subtract[i]);
+            for(size_t i = 0; i<results.size(); i++){
+                if(std::find(subtract.begin(), subtract.end(),(results[i])) != subtract.end()){
+                    results.erase(results.begin()+i);
+                }
             }
             /*
             //IF PERSON IS SEARCHED
