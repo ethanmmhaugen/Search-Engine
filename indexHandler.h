@@ -176,6 +176,7 @@ public:
     }
 
     void search(){
+        info.prettyPrintTree();
         google.getQuery();
         vector<string> orgqueries = google.getOrgQueries();
         vector<string> peepqueries = google.getPeepQueries();

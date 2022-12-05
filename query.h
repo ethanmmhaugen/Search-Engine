@@ -151,10 +151,43 @@ public:
         return true;
     }
 
-    static string lowerCase(string data){
-        transform(data.begin(), data.end(), data.begin(),
-                  [](unsigned char c){ return tolower(c); });
-        return data;
+
+    
+
+    string lowerCase(string data){
+        string tmp;
+        for (char &i: data) {
+            if(i > 47 && i<58){
+                tmp += i;
+            }
+            else if(i>96 && i<123){
+                tmp += i;
+            }
+            else if (i>64 && i<91){
+                tmp += i+34;
+            }
+        }
+        return tmp;
+    }
+
+    string orglowerCase(string data){
+        string tmp;
+        for (char &i: data) {
+            if(i == 32){
+                tmp+= i;
+            }
+            else if(i > 47 && i<58){
+                tmp += i;
+            }
+            else if(i>96 && i<123){
+                tmp += i;
+            }
+            else if (i>64 && i<91){
+                tmp += i+34;
+            }
+        }
+        return tmp;
+
     }
 
     void resultsMenu(){
