@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include "Porter2/porter2_stemmer.h"
 
+
 #ifndef FINALPROJEXAMPLES_INDEX_H
 #define FINALPROJEXAMPLES_INDEX_H
 
@@ -248,7 +249,10 @@ public:
         file2.close();
     }
 
-    void search(){
+    chrono::duration<double> search(){
+        chrono::time_point<chrono::system_clock> start, end;
+        chrono::duration<double> elapsed_time;
+        start = chrono::system_clock::now();
         google.getQuery();
         vector<string> orgqueries = google.getOrgQueries();
         vector<string> peepqueries = google.getPeepQueries();
@@ -496,86 +500,7 @@ public:
                     results.erase(results.begin()+i);
                 }
             }
-            /*
-            //IF PERSON IS SEARCHED
-            if(!peepqueries.empty()){
-                for(auto & pq : peepqueries){
-                    instancesPerWord = info.find(pq).getInstances();
-                    for (auto &j: instancesPerWord){
-                        if(std::find(results.begin(), results.end(), j)!=results.end()){
-                            auto it = hcount.find(j);
-                            if(it != hcount.end()){
-                                it -> second++;
-                            }
-                            req.push_back(j);
-                        }
-                    }
-                }
 
-                //extra weight if person exists in title
-                for(auto & pq : peepqueries){
-                    instancesPerWord = info.find(pq).getInstances();
-                    for(auto & j : instancesPerWord){
-                        if(hash[j].find(pq) != string::npos){
-                            auto it = hcount.find(j);
-                            if(it != hcount.end()){
-                                it -> second+=10;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(!orgqueries.empty()){
-                for(auto & oq : orgqueries){
-                    instancesPerWord = info.find(oq).getInstances();
-                    for (auto &j: instancesPerWord){
-                        if(std::find(results.begin(), results.end(), j)!=results.end()){
-                           if(!peepqueries.empty()){
-                               if(std::find(req.begin(), req.end(), j)!=req.end()){
-                                   auto it = hcount.find(j);
-                                   if(it != hcount.end()){
-                                       it -> second++;
-                                   }
-                                   final.push_back(j);
-                               }
-                           }else{
-                               auto it = hcount.find(j);
-                               if(it != hcount.end()){
-                                   it -> second++;
-                               }
-                               final.push_back(j);
-                           }
-                        }
-                    }
-                }
-
-                //extra weight if org exists in title
-                for(auto & oq : orgqueries){
-                    instancesPerWord = info.find(oq).getInstances();
-                    for(auto & j : instancesPerWord){
-                        if(hash[j].find(oq) != string::npos){
-                            auto it = hcount.find(j);
-                            if(it != hcount.end()){
-                                it -> second+=10;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //duplicate remover but not sure if it works
-
-            vector<string> duplicateChecker;
-            for(size_t i = 0; i<results.size();++i){
-                duplicateChecker.push_back(results.at(i));
-                if(std::any_of(duplicateChecker.begin(), duplicateChecker.end(), [](string str){ ; }){
-                    std::remove(results.at(i).begin(), results.at(i).end(), results.at(i));
-                }else{
-                    continue;
-                }
-            }
-             */
             string temp;
             for(size_t i = 0; i<results.size(); i++) {
                 for (size_t j = i + 1; j < results.size(); j++) {
@@ -590,8 +515,12 @@ public:
             results = UuidtoTitles(results);
 
             google.storeAnswers(results);
+            end = chrono::system_clock::now();
+            elapsed_time = end-start;
             google.resultsMenu();
+
         }
+        return elapsed_time;
     }
 
     vector<string> UuidtoTitles(vector<string> uuidst){

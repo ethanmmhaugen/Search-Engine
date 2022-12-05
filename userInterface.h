@@ -16,6 +16,7 @@ private:
 public:
     static void superSearch(){
         char input;
+        chrono::duration<double> timeTaken;
         string name;
         indexHandler handler;
 
@@ -27,6 +28,7 @@ public:
             cout << "|Q - Query                                  |" << endl;
             cout << "|R - Recreate indices from persistency file |" << endl;
             cout << "|C - Clear indices                          |" << endl;
+            cout << "|T - Print time from last search            |" << endl;
             cout << "|E - Exit SUPERSEARCH                       |" << endl;
             cout << "|___________________________________________|" << endl;
             cout << "Please enter a character and press enter: "    << endl;
@@ -47,7 +49,8 @@ public:
                 handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap.txt", "countMap.txt");
                 continue;
             }else if(input == 'Q'){
-                handler.search();
+                chrono::duration<double> time = handler.search();
+                timeTaken = time;
                 continue;
             }else if(input == 'R'){
                 handler.wordreloadTree("wordTree.txt");
@@ -55,8 +58,12 @@ public:
                 handler.orgreloadTree("orgTree.txt");
                 handler.reloadMaps("titleMap.txt", "countMap.txt");
                 continue;
-            }else if(input == 'C'){
+            }else if(input == 'C') {
                 handler.clear();
+                continue;
+            }
+            else if(input == 'T'){
+                cout << "The time taken for last query was " << timeTaken.count() << "seconds!! "<< endl;
                 continue;
             }else if(input == 'E'){
                 break;
