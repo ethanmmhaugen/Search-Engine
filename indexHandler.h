@@ -74,7 +74,7 @@ public:
 */
 
     //function for adding instances of a word to index or adding to word index
-    void scanDocWords(myDocument doc){
+    void scanDocWords(myDocument& doc){
         for(size_t i = 0; i<doc.getWords().size(); ++i){
             Porter2Stemmer::stem(doc.getWords().at(i));
             for(auto &j : stop){
@@ -87,7 +87,7 @@ public:
         }
     }
 
-    void scanDocPeople(myDocument doc){
+    void scanDocPeople(myDocument& doc){
         for(size_t i = 0; i<doc.getPeople().size(); ++i){
             Porter2Stemmer::stem(doc.getPeople().at(i));
             if(!peeps.contains(doc.getPeople().at(i))) {
@@ -97,7 +97,7 @@ public:
         }
     }
 
-    void scanDocOrgs(myDocument doc){
+    void scanDocOrgs(myDocument& doc){
         for(size_t i = 0; i<doc.getOrgs().size(); ++i){
             Porter2Stemmer::stem(doc.getOrgs().at(i));
             if(!orgs.contains(doc.getOrgs().at(i))) {
@@ -107,7 +107,8 @@ public:
         }
     }
 
-    void populate(string& path){
+    void populate(string path){
+        int count = 0;
         for(const auto& entry: filesystem::recursive_directory_iterator(path)){
             if(entry.is_regular_file() && entry.path().extension().string() == ".json"){
                 myDocument doc = parser.readJsonFile(entry.path().string());
@@ -118,6 +119,10 @@ public:
                 hash[doc.getUUID()] = doc.getName();
                 hcount[doc.getUUID()] = 0;
                 uuids.push_back(doc.getUUID());
+                count++;
+                if(count%100 == 0){
+                    cout << count << " documents parsed... " << endl;
+                }
             }
         }
     }
@@ -545,7 +550,7 @@ public:
     }
 
 
-    void checkKey(string& code){
+    void checkKey(string code){
         orgs.find(code).printAllInstances();
     }
 
