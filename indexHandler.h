@@ -77,9 +77,9 @@ public:
     void scanDocWords(myDocument& doc){
         for(size_t i = 0; i<doc.getWords().size(); ++i){
             Porter2Stemmer::stem(doc.getWords().at(i));
-            for(auto &j : stop){
+            /*for(auto &j : stop){
                 if (doc.getWords().at(i) == j)continue;
-            }
+            }*/
             if(!info.contains(doc.getWords().at(i))) {
                 info.insert(key(doc.getWords().at(i)));
             }
