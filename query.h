@@ -132,18 +132,7 @@ public:
         }
     }
 
-    void printAnswers(){
-        if(answers.size()<1){
-            cout << "No files found... try again!" << endl;
-            return;
-        }
-        else {
-            cout << "We found these files for you: " << endl;
-            for (size_t i = pageNum * 15, j = pageNum * 15; i < min(j + 15, answers.size()); i++) {
-                cout << answers[i] << endl;
-            }
-        }
-    }
+
 
     void nextPage(){
         if((pageNum+1)*15 < answers.size()) {
@@ -204,13 +193,29 @@ public:
 
     }
 
-    void resultsMenu(){
+    void printAnswers(unordered_map<string, string>& hash){
+        vector<string> results = UuidtoTitles(answers, hash);
+        if(results.size()<1){
+            cout << "No files found... try again!" << endl;
+            return;
+        }
+        else {
+            cout << "We found these files for you: " << endl;
+            for (size_t i = pageNum * 15, j = pageNum * 15; i < min(j + 15, results.size()); i++) {
+                cout << i+1 << ". " << results[i] << endl;
+            }
+        }
+    }
+
+    void resultsMenu(unordered_map<string, string>& hashUrls, unordered_map<string, string>& hash){
         pageNum = 0;
         char input;
         while(true){
-            printAnswers();
+            printAnswers(hash);
             cout << "|Page " << pageNum+1 << "                                     |" << endl;
             cout << "|                                           |" << endl;
+            cout << "|                                           |" << endl;
+            cout << "|R - Return the URL of a result             |" << endl;
             cout << "|N - next page of results                   |" << endl;
             cout << "|P - previous page of results               |" << endl;
             cout << "|E - exit the query and go back to main menu|" << endl;
@@ -225,11 +230,26 @@ public:
                 prevPage();
                 continue;
             }
+            else if(input == 'R'){
+                int num;
+                cout << "Enter the # result you would like the url for" << endl;
+                cin >> num;
+                cout << hashUrls[answers[num-1]] << endl;
+                continue;
+            }
             else if(input == 'E'){
                 break;
             }
         }
     }
 
+    vector<string> UuidtoTitles(vector<string>& uuidst, unordered_map<string, string>& hash){
+        vector<string> answers;
+        answers.reserve(uuidst.size());
+        for(auto & uuid : uuidst){
+            answers.push_back(hash[uuid]);
+        }
+        return answers;
+    }
 };
 #endif //FINALPROJEXAMPLES_QUERY_H

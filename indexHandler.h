@@ -26,6 +26,7 @@ private:
     query google;
     unordered_map<string,string> hash;
     unordered_map<string, size_t> hcount;
+    unordered_map<string, string> hashUrls;
     vector<string> uuids;
     vector<string> stop{"a", "an", "for", "and", "nor", "but", "or", "yet", "both", "not", "the", "my", "me", "you", "your", "yours", "his", "her", "they", "them", "he", "him", "she", "in", "on", "by"};
 
@@ -74,36 +75,47 @@ public:
 */
 
     //function for adding instances of a word to index or adding to word index
-    void scanDocWords(myDocument& doc){
-        for(size_t i = 0; i<doc.getWords().size(); ++i){
-            Porter2Stemmer::stem(doc.getWords().at(i));
-            /*for(auto &j : stop){
-                if (doc.getWords().at(i) == j)continue;
-            }*/
-            if(!info.contains(doc.getWords().at(i))) {
-                info.insert(key(doc.getWords().at(i)));
+    void scanDocOrgs(Document& d, string& uuid){
+        auto organizations = d["entities"]["organizations"].GetArray();
+        for (auto &p : organizations)
+        {
+            string tempO = parser.orgLowerCase(p["name"].GetString());
+            Porter2Stemmer::stem(tempO);
+
+            if(!orgs.contains(tempO)) {
+                orgs.insert(key(tempO));
             }
-            info.find(key(doc.getWords().at(i))).addInst(doc.getUUID());
+            orgs.find(key(tempO)).addInst(uuid);
         }
     }
 
-    void scanDocPeople(myDocument& doc){
-        for(size_t i = 0; i<doc.getPeople().size(); ++i){
-            Porter2Stemmer::stem(doc.getPeople().at(i));
-            if(!peeps.contains(doc.getPeople().at(i))) {
-                peeps.insert(key(doc.getPeople().at(i)));
+    void scanDocPeople(Document& d, string& uuid){
+        auto people = d["entities"]["persons"].GetArray();
+        for (auto &p : people)
+        {
+            string tempP = parser.orgLowerCase(p["name"].GetString());
+            Porter2Stemmer::stem(tempP);
+
+            if(!peeps.contains(tempP)) {
+                peeps.insert(key(tempP));
             }
-            peeps.find(key(doc.getPeople().at(i))).addInst(doc.getUUID());
+            peeps.find(key(tempP)).addInst(uuid);
         }
     }
 
-    void scanDocOrgs(myDocument& doc){
-        for(size_t i = 0; i<doc.getOrgs().size(); ++i){
-            Porter2Stemmer::stem(doc.getOrgs().at(i));
-            if(!orgs.contains(doc.getOrgs().at(i))) {
-                orgs.insert(key(doc.getOrgs().at(i)));
+
+    void scanDocWords(Document& d, string& uuid){
+        auto text = d["text"].GetString();
+        istringstream ss(text);
+        string tempW;
+        while(ss>>tempW) {
+            tempW = parser.lowerCase(tempW);
+            Porter2Stemmer::stem(tempW);
+
+            if (!info.contains(tempW)) {
+                info.insert(key(tempW));
             }
-            orgs.find(key(doc.getOrgs().at(i))).addInst(doc.getUUID());
+            info.find(key(tempW)).addInst(uuid);
         }
     }
 
@@ -111,14 +123,23 @@ public:
         int count = 0;
         for(const auto& entry: filesystem::recursive_directory_iterator(path)){
             if(entry.is_regular_file() && entry.path().extension().string() == ".json"){
-                myDocument doc = parser.readJsonFile(entry.path().string());
+                Document doc;
                 //Populate people index
-                scanDocOrgs(doc);
-                scanDocPeople(doc);
-                scanDocWords(doc);
-                hash[doc.getUUID()] = doc.getName();
-                hcount[doc.getUUID()] = 0;
-                uuids.push_back(doc.getUUID());
+                ifstream input(entry.path().string());
+                if (!input.is_open()) {
+                    cerr << "cannot open file: " << entry.path().string() << endl;
+                }
+                IStreamWrapper isw(input);
+                doc.ParseStream(isw);
+                string uuid = doc["uuid"].GetString();
+                scanDocOrgs(doc, uuid);
+                scanDocPeople(doc, uuid);
+                scanDocWords(doc, uuid);
+                hash[uuid] = doc["title"].GetString();
+                hcount[uuid] = 0;
+                hashUrls[uuid] = doc["url"].GetString();
+
+                uuids.push_back(uuid);
                 count++;
                 if(count%100 == 0){
                     cout << count << " documents parsed... " << endl;
@@ -126,16 +147,13 @@ public:
             }
         }
     }
-
     void storeTree(AvlTree<key> tree, string filename){
         tree.saveToFile(filename);
     }
 
-    void storeMaps(unordered_map<string,string> shash, unordered_map<string, size_t> shcount,vector<string> suuids, string name, string name2){
+    void storeMaps(unordered_map<string,string> shash, vector<string> suuids, string name){
         ofstream file;
-        ofstream file2;
         file.open(name);
-        file2.open(name2);
 
         //SAVING FIRST MAP
         if(shash.empty()){
@@ -143,21 +161,25 @@ public:
             return;
         }
 
-        for(size_t i = 0; i<shash.size();++i){
+        for(size_t i = 0; i<shash.size();++i) {
             file << suuids.at(i) << " " << shash[suuids.at(i)] << endl;
         }
-        //SAVING SECOND MAP
+
+        file.close();
+
+    }
+    void storeMaps(unordered_map<string,size_t> shcount, vector<string> suuids, string name){
+        ofstream file;
+        file.open(name);
         if(shcount.empty()){
-            file2.close();
+            file.close();
             return;
         }
 
         for(size_t i = 0; i<shcount.size();++i){
-            file2 << suuids.at(i) << " " << shcount[suuids.at(i)] << endl;
+            file << suuids.at(i) << " " << shcount[suuids.at(i)] << endl;
         }
 
-        file.close();
-        file2.close();
     }
 
     void orgreloadTree(const string& filename){
@@ -221,17 +243,20 @@ public:
         file.close();
     }
 
-    void reloadMaps(const string& filename, const string& filename2){
+    void reloadMaps(const string filename, const string filename2, const string filename3){
         hash.clear();
         hcount.clear();
+        hashUrls.clear();
         ifstream file(filename);
         ifstream file2(filename2);
-        if(!file.is_open()||!file2.is_open()){
+        ifstream file3(filename3);
+        if(!file.is_open()||!file2.is_open() || !file3.is_open()){
             cout << "Error, one or more of your map files not found" << endl;
         }
         vector<string> tempUs;
         string buff;
         size_t buf;
+        string buff2;
         string tmpU;
         while(!file.eof()){
             getline(file, buff);
@@ -241,6 +266,8 @@ public:
             getline(s, buff);
             hash[tmpU] = buff;
         }
+        file.close();
+        cout << "Title Map Reloaded" << endl;
         while(!file2.eof()){
             getline(file2, buff);
             stringstream s(buff);
@@ -249,9 +276,19 @@ public:
             s << endl;
             hcount[tmpU] = buf;
         }
-        uuids = tempUs;
-        file.close();
         file2.close();
+        cout << "Count Map Reloaded" << endl;
+        while(!file3.eof()){
+            getline(file3, buff);
+            stringstream s(buff);
+            getline(s, tmpU, ' ');
+            s >> buff2;
+            s << endl;
+            hashUrls[tmpU] = buff2;
+        }
+        cout << "Url Map Reloaded" << endl;
+        uuids = tempUs;
+        file3.close();
     }
 
     chrono::duration<double> search(){
@@ -517,25 +554,17 @@ public:
                     }
                 }
             }
-            results = UuidtoTitles(results);
 
             google.storeAnswers(results);
             end = chrono::system_clock::now();
-            google.resultsMenu();
+            google.resultsMenu(hashUrls, hash);
 
         }
         elapsed_time = end-start;
         return elapsed_time;
     }
 
-    vector<string> UuidtoTitles(vector<string> uuidst){
-        vector<string> answers;
-        answers.reserve(uuidst.size());
-        for(auto & uuid : uuidst){
-            answers.push_back(hash[uuid]);
-        }
-        return answers;
-    }
+
 
     void printInfo(){
         info.prettyPrintTree();
@@ -576,6 +605,10 @@ public:
 
     unordered_map<string, size_t> getCountMap(){
         return this->hcount;
+    }
+
+    unordered_map<string, string> getUrlMap(){
+        return this->hashUrls;
     }
 };
 

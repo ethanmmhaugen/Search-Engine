@@ -46,7 +46,9 @@ public:
                 handler.storeTree(handler.getWords(), "wordTree.txt");
                 handler.storeTree(handler.getPeeps(), "peopleTree.txt");
                 handler.storeTree(handler.getOrgs(), "orgTree.txt");
-                handler.storeMaps(handler.getHashMap(), handler.getCountMap(), handler.getUUIDs(), "titleMap.txt", "countMap.txt");
+                handler.storeMaps(handler.getHashMap(), handler.getUUIDs(), "titleMap.txt");
+                handler.storeMaps(handler.getCountMap(), handler.getUUIDs(), "countMap.txt");
+                handler.storeMaps(handler.getUrlMap(), handler.getUUIDs(), "urlMap.txt");
                 continue;
             }else if(input == 'Q'){
                 chrono::duration<double> time = handler.search();
@@ -54,9 +56,12 @@ public:
                 continue;
             }else if(input == 'R'){
                 handler.wordreloadTree("wordTree.txt");
+                cout << "word tree complete" << endl;
                 handler.peepreloadTree("peopleTree.txt");
+                cout << "person tree complete" << endl;
                 handler.orgreloadTree("orgTree.txt");
-                handler.reloadMaps("titleMap.txt", "countMap.txt");
+                cout << "organization tree complete" << endl;
+                handler.reloadMaps("titleMap.txt", "countMap.txt", "urlMap.txt");
                 continue;
             }else if(input == 'C') {
                 handler.clear();
